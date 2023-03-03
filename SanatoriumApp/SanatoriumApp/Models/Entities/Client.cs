@@ -33,6 +33,6 @@ namespace SanatoriumApp.Models.Entities
         public string Passport { get; set; }=null!;
 
         [NotMapped]
-        public string FullName => $"{LastName} {FirstName} {MiddleName}"; 
+        public string FullName => $"{LastName} {FirstName} {MiddleName}";// 
     }
 }
