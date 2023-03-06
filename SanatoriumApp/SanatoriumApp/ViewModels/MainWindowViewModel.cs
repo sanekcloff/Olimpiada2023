@@ -11,24 +11,17 @@ namespace SanatoriumApp.ViewModels
 {
     internal class MainWindowViewModel
     {
-        private List<Client> clients;
-        public List<Client> Clients 
-        { 
-            get => clients; 
-            set => clients = value; 
-        }
         public MainWindowViewModel()
         {
             using (var context = new ApplicationDbContext())
             {
-                context.Clients.Add(new Client("Аксёнов","Александр","Игоревич",new DateTime(2003,03,20),'М',"some shit"));
+                var role1 = new Role { Title = "Admin" };
+                var user1 = new User { Login = "guest",Password="guest",Role=role1 };
+                var client1 = new Client { LastName = "Аксёнов", FirstName = "Александр", MiddleName = "Игоревич", DateOfBirth = new DateTime(2003, 03, 20), Gender = 'М', Passport = "кам", User=user1};
+                context.Roles.Add(role1);
+                context.Users.Add(user1);
+                context.Clients.Add(client1);
                 context.SaveChanges();
-
-                Clients= new List<Client>(context.Clients);
-                foreach (var item in Clients)
-                {
-                    MessageBox.Show($"{item.LastName} {item.FirstName} {item.MiddleName} ({item.DateOfBirth.ToString("d")}; {item.Gender};)");
-                }
             }
         }
 

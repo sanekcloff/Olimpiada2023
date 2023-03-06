@@ -8,19 +8,6 @@ namespace SanatoriumApp.Models.Entities
 {
     internal class CostPerDay
     {
-        public CostPerDay(int id, decimal cost, int sanatoriumProgramId, SanatoriumProgram sanatoriumProgram, int sanatoriumRoomId, SanatoriumRoom sanatoriumRoom)
-        {
-            Id = id;
-            Cost = cost;
-            SanatoriumProgramId = sanatoriumProgramId;
-            SanatoriumProgram = sanatoriumProgram;
-            SanatoriumRoomId = sanatoriumRoomId;
-            SanatoriumRoom = sanatoriumRoom;
-        }
-        public CostPerDay()
-        {
-
-        }
         public int Id { get; set; }
         public decimal Cost { get; set; }
         public int SanatoriumProgramId { get; set; }

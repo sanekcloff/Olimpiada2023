@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace SanatoriumApp.Models.Entities
 {
-    internal class SanatoriumProgram
+    internal class Role
     {
         public int Id { get; set; }
         public string Title { get; set; } = null!;
-        public int QuantityOfProcedures { get; set; }
-        public int MinDays { get; set; }
-        public string Description { get; set; } = null!;
-        public decimal Cost { get; set; }
+
+        public ICollection<User> Users { get; } = null!;
     }
 }
