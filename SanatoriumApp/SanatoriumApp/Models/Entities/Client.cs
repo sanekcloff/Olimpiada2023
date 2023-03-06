@@ -9,9 +9,8 @@ namespace SanatoriumApp.Models.Entities
 {
     internal class Client
     {
-        public Client(int id, string lastName, string firstName, string middleName, DateTime dateOfBirth, char gender, string passport)
+        public Client(string lastName, string firstName, string middleName, DateTime dateOfBirth, char gender, string passport)
         {
-            Id = id;
             LastName = lastName;
             FirstName = firstName;
             MiddleName = middleName;
@@ -33,6 +32,6 @@ namespace SanatoriumApp.Models.Entities
         public string Passport { get; set; }=null!;
 
         [NotMapped]
-        public string FullName => $"{LastName} {FirstName} {MiddleName}";// 
+        public string FullName => $"{LastName} {FirstName} {MiddleName}";
     }
 }
