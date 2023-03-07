@@ -11,6 +11,47 @@
         <viewModel:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        
+        <TabControl>
+            <TabItem Header="Роль">
+                <ListView ItemsSource="{Binding Roles}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Border Background="Gray" 
+                                                CornerRadius="10" 
+                                                Height="50">
+                                            
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Пользователь">
+
+            </TabItem>
+            <TabItem Header="Клиент">
+
+            </TabItem>
+            <TabItem Header="Программы санатория">
+
+            </TabItem>
+            <TabItem Header="Категории комнат санатория">
+
+            </TabItem>
+            <TabItem Header="Комнаты санатория">
+
+            </TabItem>
+            <TabItem Header="Стоимость в день">
+
+            </TabItem>
+            <TabItem Header="Договора">
+
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using SanatoriumApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SanatoriumApp.Models;
 using SanatoriumApp.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,14 @@ namespace SanatoriumApp.ViewModels
 {
     internal class MainWindowViewModel
     {
+        public List<Role> Roles { get; set; }
+        public List<User> Users { get; set; }
+        public List<Client> Clients { get; set; }
+        public List<SanatoriumProgram> SanatoriumPrograms { get; set; }
+        public List<SanatoriumRoomCategory> SanatoriumRoomCategories { get; set; }
+        public List<SanatoriumRoom> SanatoriumRooms { get; set; }
+        public List<CostPerDay> CostPerDays { get; set; }
+        public List<Treaty> Treaties { get; set; }
         public MainWindowViewModel()
         {
             using (var context = new ApplicationDbContext())
@@ -33,6 +42,25 @@ namespace SanatoriumApp.ViewModels
                 context.CostsPerDays.Add(costPerDay1);
                 context.Treaties.Add(treaty1);
                 context.SaveChanges();
+
+                Roles = new List<Role>(context.Roles);
+                Users = new List<User>(context.Users.Include(r=>r.Role));
+                Clients = new List<Client>(context.Clients.Include(u=>u.User).ThenInclude(r=>r.Role));
+                SanatoriumPrograms = new List<SanatoriumProgram>(context.SanatoriumPrograms);
+                SanatoriumRoomCategories = new List<SanatoriumRoomCategory>(context.SanatoriumRoomCategories);
+                SanatoriumRooms = new List<SanatoriumRoom>(context.SanatoriumRooms.Include(sr=>sr.SanatoriumRoomCategory));
+                CostPerDays = new List<CostPerDay>(context.CostsPerDays.Include(sp=>sp.SanatoriumProgram).Include(sr=>sr.SanatoriumRoom).ThenInclude(src=>src.SanatoriumRoomCategory));
+                Treaties = new List<Treaty>(
+                    context.Treaties.
+                    Include(c=>c.Client).
+                        ThenInclude(u=>u.User).
+                        ThenInclude(r=>r.Role).
+                    Include(cpd=>cpd.CostPerDay).
+                        ThenInclude(sr=>sr.SanatoriumRoom).
+                        ThenInclude(src=>src.SanatoriumRoomCategory).
+                    Include(cpd=>cpd.CostPerDay).
+                        ThenInclude(sp=>sp.SanatoriumProgram)
+                        );
             }
         }
 
