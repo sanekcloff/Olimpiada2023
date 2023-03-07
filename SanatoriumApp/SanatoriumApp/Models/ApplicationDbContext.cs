@@ -31,11 +31,11 @@ namespace SanatoriumApp.Models
         }
 
         public DbSet<Client> Clients { get; set; } = null!;
-        //public DbSet<CostPerDay> CostsPerDays { get; set; } = null!;
-        //public DbSet<SanatoriumProgram> SanatoriumPrograms { get; set; } = null!;
-        //public DbSet<SanatoriumRoom> SanatoriumRooms { get; set;} = null!;
-        //public DbSet<SanatoriumRoomCategory> SanatoriumRoomCategories { get; set; } = null!;
-        //public DbSet<Treaty> Treaties { get; set; } = null!;
+        public DbSet<CostPerDay> CostsPerDays { get; set; } = null!;
+        public DbSet<SanatoriumProgram> SanatoriumPrograms { get; set; } = null!;
+        public DbSet<SanatoriumRoom> SanatoriumRooms { get; set; } = null!;
+        public DbSet<SanatoriumRoomCategory> SanatoriumRoomCategories { get; set; } = null!;
+        public DbSet<Treaty> Treaties { get; set; } = null!;
         public DbSet<User> Users { get;set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
 
@@ -51,7 +51,32 @@ namespace SanatoriumApp.Models
                 .HasMany(u=>u.Users)
                 .WithOne(r=>r.Role)
                 .HasForeignKey(r => r.RoleId);
-                
+
+            modelBuilder.Entity<SanatoriumRoomCategory>()
+                .HasMany(sr => sr.SanatoriumRooms)
+                .WithOne(sc => sc.SanatoriumRoomCategory)
+                .HasForeignKey(sr => sr.SanatoriumRoomCategoryId);
+
+            modelBuilder.Entity<SanatoriumProgram>()
+                .HasMany(cpd=>cpd.CostPerDays)
+                .WithOne(sp=>sp.SanatoriumProgram)
+                .HasForeignKey(cpd=>cpd.SanatoriumProgramId);
+
+            modelBuilder.Entity<SanatoriumRoom>()
+                .HasMany(cpd => cpd.CostPerDays)
+                .WithOne(sr => sr.SanatoriumRoom)
+                .HasForeignKey(cpd=>cpd.SanatoriumRoomId);
+
+            modelBuilder.Entity<CostPerDay>()
+                .HasMany(t=>t.Treaties)
+                .WithOne(cpd=>cpd.CostPerDay)
+                .HasForeignKey(t=>t.CostPerDayId);
+
+            modelBuilder.Entity<Client>()
+                .HasMany(t => t.Treaties)
+                .WithOne(c => c.Client)
+                .HasForeignKey(t=>t.ClientId);
+
             base.OnModelCreating(modelBuilder);
         }
     }

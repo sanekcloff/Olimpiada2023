@@ -18,5 +18,7 @@ namespace SanatoriumApp.Models.Entities
         public string WindowView { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Status { get; set; } = null!;
+
+        public ICollection<CostPerDay> CostPerDays { get; set; } = null!;
     }
 }

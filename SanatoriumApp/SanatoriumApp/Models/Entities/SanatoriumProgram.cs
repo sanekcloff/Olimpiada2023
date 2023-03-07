@@ -14,5 +14,7 @@ namespace SanatoriumApp.Models.Entities
         public int MinDays { get; set; }
         public string Description { get; set; } = null!;
         public decimal Cost { get; set; }
+
+        public ICollection<CostPerDay> CostPerDays { get; set; } = null!;
     }
 }

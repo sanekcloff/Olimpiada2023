@@ -17,7 +17,8 @@ namespace SanatoriumApp.Models.Entities
         public char? Gender { get; set; }
         public string? Passport { get; set; }=null!;
         public User User { get; set; } = null!;
-        
+
+        public ICollection<Treaty> Treaties { get; set; } = null!;
 
         [NotMapped]
         public string FullName => $"{LastName} {FirstName} {MiddleName}";

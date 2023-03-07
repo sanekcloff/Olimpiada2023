@@ -15,5 +15,6 @@ namespace SanatoriumApp.Models.Entities
         public int SanatoriumRoomId { get; set; }
         public SanatoriumRoom SanatoriumRoom { get; set;} = null!;
 
+        public ICollection<Treaty> Treaties { get; set; } = null!;
     }
 }

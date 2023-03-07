@@ -11,5 +11,7 @@ namespace SanatoriumApp.Models.Entities
         public int Id { get; set; }
         public string Title { get; set; } = null!;
         public decimal Cost { get; set; }
+
+        public ICollection<SanatoriumRoom> SanatoriumRooms { get; set; } = null!;
     }
 }
