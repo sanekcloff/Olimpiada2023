@@ -16,7 +16,7 @@ namespace SanatoriumApp.Models
 
         public ApplicationDbContext()
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

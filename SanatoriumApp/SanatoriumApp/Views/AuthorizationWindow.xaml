@@ -4,9 +4,66 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SanatoriumApp.Views"
+        xmlns:viewModels="clr-namespace:SanatoriumApp.ViewModels"
         mc:Ignorable="d"
-        Title="AuthorizationWindow" Height="600" Width="400">
+        Title="Авторизация" Height="600" Width="500"
+        FontSize="14">
+    <Window.DataContext>
+        <viewModels:AuthorizationViewModel/>
+    </Window.DataContext>
     <Grid>
-        
+        <TabControl HorizontalAlignment="Center"
+                    BorderThickness="0">
+            <TabItem Header="Авторизация">
+                <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Логин"
+                               HorizontalAlignment="Center"/>
+                    <TextBox Width="150"
+                             Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Пароль"
+                               HorizontalAlignment="Center"/>
+                    <TextBox Width="150"
+                             Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="Войти"
+                            Margin="0,15,0,0"
+                            Name="LoginButton"
+                            Click="LoginButton_Click"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Регистрация">
+                <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Логин"
+                               HorizontalAlignment="Center"/>
+                    <TextBox Width="150"/>
+                    <TextBlock Text="Пароль"
+                               HorizontalAlignment="Center"/>
+                    <TextBox Width="150"/>
+                    <TextBlock Text="Фамилия"
+                               HorizontalAlignment="Center"/>
+                    <TextBox Width="150"/>
+                    <TextBlock Text="Имя"
+                               HorizontalAlignment="Center"/>
+                    <TextBox Width="150"/>
+                    <TextBlock Text="Отчество"
+                               HorizontalAlignment="Center"/>
+                    <TextBox Width="150"/>
+                    <TextBlock Text="Пол"
+                               HorizontalAlignment="Center"/>
+                    <TextBox Width="150"/>
+                    <TextBlock Text="Дата рождения"
+                               HorizontalAlignment="Center"/>
+                    <DatePicker/>
+                    <TextBlock Text="Паспорт"
+                               HorizontalAlignment="Center"/>
+                    <TextBox Width="150"/>
+                    <Button Content="Зарегестрироваться"
+                            Margin="0,15,0,0"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

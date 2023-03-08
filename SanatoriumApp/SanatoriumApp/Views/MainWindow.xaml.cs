@@ -1,4 +1,5 @@
-﻿using SanatoriumApp.ViewModels;
+﻿using SanatoriumApp.Models.Entities;
+using SanatoriumApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,20 +17,18 @@ using System.Windows.Shapes;
 namespace SanatoriumApp.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AuthorizationWindow.xaml
+    /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class AuthorizationWindow : Window
+    public partial class MainWindow : Window
     {
-        private AuthorizationViewModel _viewModel;
-        public AuthorizationWindow()
+        private MainWindowViewModel _viewModel;
+        internal MainWindow(Client client)
         {
             InitializeComponent();
-            _viewModel = (AuthorizationViewModel)DataContext;
-        }
+            _viewModel = new MainWindowViewModel(client);
+            DataContext= _viewModel;
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            _viewModel.Authorization();
+            this.Title = $"Пользователь: {client.FullName}";
         }
     }
 }
