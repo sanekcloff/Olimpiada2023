@@ -31,5 +31,10 @@ namespace SanatoriumApp.Views
         {
             _viewModel.Authorization();
         }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Registration();
+        }
     }
 }

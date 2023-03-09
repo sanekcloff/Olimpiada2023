@@ -38,30 +38,42 @@
                             VerticalAlignment="Center">
                     <TextBlock Text="Логин"
                                HorizontalAlignment="Center"/>
-                    <TextBox Width="150"/>
+                    <TextBox Width="150"
+                             Text="{Binding Login,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Text="Пароль"
                                HorizontalAlignment="Center"/>
-                    <TextBox Width="150"/>
+                    <TextBox Width="150"
+                             Text="{Binding Password,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Text="Фамилия"
                                HorizontalAlignment="Center"/>
-                    <TextBox Width="150"/>
+                    <TextBox Width="150"
+                             Text="{Binding LastName,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Text="Имя"
                                HorizontalAlignment="Center"/>
-                    <TextBox Width="150"/>
+                    <TextBox Width="150"
+                             Text="{Binding FirstName,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Text="Отчество"
                                HorizontalAlignment="Center"/>
-                    <TextBox Width="150"/>
+                    <TextBox Width="150"
+                             Text="{Binding MiddleName,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Text="Пол"
                                HorizontalAlignment="Center"/>
-                    <TextBox Width="150"/>
+                    <ComboBox Width="150"
+                             SelectedItem="{Binding Gender, UpdateSourceTrigger=PropertyChanged}">
+                        <ComboBoxItem Content="М"/>
+                        <ComboBoxItem Content="Ж"/>
+                    </ComboBox>
                     <TextBlock Text="Дата рождения"
                                HorizontalAlignment="Center"/>
-                    <DatePicker/>
+                    <DatePicker SelectedDate="{Binding DateOfBirth,UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock Text="Паспорт"
                                HorizontalAlignment="Center"/>
-                    <TextBox Width="150"/>
+                    <TextBox Width="150"
+                             Text="{Binding Passport,UpdateSourceTrigger=PropertyChanged}"/>
                     <Button Content="Зарегестрироваться"
-                            Margin="0,15,0,0"/>
+                            Margin="0,15,0,0"
+                            Name="RegisterButton" 
+                            Click="RegisterButton_Click"/>
                 </StackPanel>
             </TabItem>
         </TabControl>
