@@ -20,8 +20,8 @@ namespace SanatoriumApp.Models
             Database.EnsureCreated();
         }
 
-        //private const string connectionString = @"Server=localhost\SQLEXPRESS; Database=OLIMP_XX; Trusted_Connection=true;";
-        private const string connectionString = @"Server=DESKTOP-I8L1GP6; Database=OLIMP_XX; Trusted_Connection=true;";
+        private const string connectionString = @"Server=localhost\SQLEXPRESS; Database=OLIMP_XX; Trusted_Connection=true;";
+        //private const string connectionString = @"Server=DESKTOP-I8L1GP6; Database=OLIMP_XX; Trusted_Connection=true;";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

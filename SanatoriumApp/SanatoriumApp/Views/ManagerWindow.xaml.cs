@@ -17,18 +17,16 @@ using System.Windows.Shapes;
 namespace SanatoriumApp.Views
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для ManagerWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ManagerWindow : Window
     {
-        private MainWindowViewModel _viewModel;
-        internal MainWindow(Client client)
+        private ManagerViewModel _viewModel;
+        internal ManagerWindow(Client client)
         {
             InitializeComponent();
-            _viewModel = new MainWindowViewModel(client);
-            DataContext= _viewModel;
-
-            this.Title = $"Пользователь: {client.FullName}";
+            _viewModel = new ManagerViewModel(client);
+            DataContext = _viewModel;
         }
     }
 }
