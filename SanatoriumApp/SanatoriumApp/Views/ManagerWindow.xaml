@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SanatoriumApp.Views"
         mc:Ignorable="d"
-        Title="ManagerWindow" Height="450" Width="800">
+        Title="Окно менеджера" Height="450" Width="800">
     <Grid>
         
     </Grid>

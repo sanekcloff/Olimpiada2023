@@ -41,12 +41,6 @@ namespace SanatoriumApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasOne(c => c.Client)
-                .WithOne(u => u.User)
-                .HasForeignKey<User>
-                (u => u.ClientId);
-
             modelBuilder.Entity<Role>()
                 .HasMany(u=>u.Users)
                 .WithOne(r=>r.Role)

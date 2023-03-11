@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SanatoriumApp.Services
 {
-    internal static class ClientService
+    internal static class SanatoriumProgramService
     {
-        internal static List<Client> GetAllClients()
+        internal static List<SanatoriumProgram> GetAllSanatoriumPrograms()
         {
-            using (var context = new ApplicationDbContext()) { return context.Clients.ToList(); }
+            using(var context = new ApplicationDbContext()) { return context.SanatoriumPrograms.ToList(); }
         }
     }
 }

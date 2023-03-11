@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SanatoriumApp.Models;
+﻿using SanatoriumApp.Models;
 using SanatoriumApp.Models.Entities;
+using SanatoriumApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,30 +9,58 @@ using System.Threading.Tasks;
 
 namespace SanatoriumApp.ViewModels
 {
-    class AdministratorViewModel:ViewModelBase
+    internal class AdministratorViewModel:ViewModelBase
     {
         #region Fields & Properties
         private List<Client> _clients = null!;
+        private List<SanatoriumProgram> _sanatoriumPrograms= null!;
         private List<SanatoriumRoom> _sanatoriumRooms = null!;
-        private List<SanatoriumProgram> _sanatoriumPrograms = null!;
 
-        internal List<Client> Clients { get => _clients; set => _clients = value; }
-        internal List<SanatoriumRoom> SanatoriumRooms { get => _sanatoriumRooms; set => _sanatoriumRooms = value; }
-        internal List<SanatoriumProgram> SanatoriumPrograms { get => _sanatoriumPrograms; set => _sanatoriumPrograms = value; }
+        private Client _selectedClient = null!;
+        private SanatoriumProgram _selectedProgram= null!;
+        private SanatoriumRoom _selectedRoom= null!;
+
+        public List<Client> Clients 
+        { 
+            get => _clients; 
+            set => Set(ref _clients, value, nameof(Clients)); 
+        }
+        public List<SanatoriumProgram> SanatoriumPrograms 
+        { 
+            get => _sanatoriumPrograms; 
+            set => Set(ref _sanatoriumPrograms, value, nameof(SanatoriumPrograms)); 
+        }
+        public List<SanatoriumRoom> SanatoriumRooms 
+        { 
+            get => _sanatoriumRooms; 
+            set => Set(ref _sanatoriumRooms, value, nameof(SanatoriumRooms)); 
+        }
+        public Client SelectedClient 
+        { 
+            get => _selectedClient; 
+            set => Set(ref _selectedClient, value, nameof(SelectedClient)); 
+        }
+        public SanatoriumProgram SelectedProgram 
+        { 
+            get => _selectedProgram; 
+            set => Set(ref _selectedProgram, value, nameof(SelectedProgram)); 
+        }
+        public SanatoriumRoom SelectedRoom 
+        { 
+            get => _selectedRoom; 
+            set => Set(ref _selectedRoom, value, nameof(SelectedRoom )); 
+        }
         #endregion
-        public AdministratorViewModel(Client client)
+        public AdministratorViewModel()
         {
             using (var context = new ApplicationDbContext())
             {
-                Clients = context.Clients
-                    .Include(u => u.User)
-                    .ToList();
-                SanatoriumRooms = context.SanatoriumRooms
-                    .Include(src=>src.SanatoriumRoomCategory)
-                    .ToList();
-                SanatoriumPrograms = context.SanatoriumPrograms
-                    .ToList();
+                Clients = new List<Client>(ClientService.GetAllClients());
+                SanatoriumPrograms= new List<SanatoriumProgram>(SanatoriumProgramService.GetAllSanatoriumPrograms());
+                SanatoriumRooms= new List<SanatoriumRoom>(SanatoriumRoomService.GetAllSanatoriumRooms());
             }
         }
+
+        
     }
 }

@@ -22,11 +22,10 @@ namespace SanatoriumApp.Views
     public partial class AdministratorWindow : Window
     {
         private AdministratorViewModel _viewModel;
-        internal AdministratorWindow(Client client)
+        internal AdministratorWindow(User user)
         {
             InitializeComponent();
-            _viewModel = new AdministratorViewModel(client);
-            DataContext= _viewModel;
+            _viewModel = (AdministratorViewModel)DataContext;
         }
     }
 }

@@ -22,10 +22,10 @@ namespace SanatoriumApp.Views
     public partial class ManagerWindow : Window
     {
         private ManagerViewModel _viewModel;
-        internal ManagerWindow(Client client)
+        internal ManagerWindow(User user)
         {
             InitializeComponent();
-            _viewModel = new ManagerViewModel(client);
+            _viewModel=new ManagerViewModel(user);
             DataContext = _viewModel;
         }
     }

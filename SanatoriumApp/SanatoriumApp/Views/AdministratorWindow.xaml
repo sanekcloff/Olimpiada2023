@@ -3,37 +3,97 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:SanatoriumApp.ViewModels"
         xmlns:local="clr-namespace:SanatoriumApp.Views"
         mc:Ignorable="d"
-        Title="AdministratorWindow" Height="500" Width="800">
+        Title="Окно администратора" Height="450" Width="800">
+    <Window.DataContext>
+        <viewModel:AdministratorViewModel/>
+    </Window.DataContext>
     <Grid>
-        <TabControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.Column="0">
             <TabItem Header="Клиенты">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height=".15*"/>
-                    </Grid.RowDefinitions>
-                    <ListView>
-                        
-                    </ListView>
-                </Grid>
+                <ListView ItemsSource="{Binding Clients}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Grid Margin="5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding FullName}"
+                                                       Grid.Column="0"
+                                                       TextWrapping="WrapWithOverflow"/>
+                                            <StackPanel Orientation="Vertical"
+                                                        Grid.Column="1">
+                                                <TextBlock Text="{Binding DateOfBirth, StringFormat=dd:MM:yyyy}"/>
+                                                <TextBlock Text="{Binding Gender}"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2"
+                                                        Orientation="Vertical">
+                                                <TextBlock Text="{Binding PassportSeries}"/>
+                                                <TextBlock Text="{Binding PassportNumber}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
             </TabItem>
             <TabItem Header="Номера">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height=".15*"/>
-                    </Grid.RowDefinitions>
-                </Grid>
+                <ListView ItemsSource="{Binding SanatoriumRooms}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{Binding SanatoriumRoomCategory.Title}"/>
+                                            <StackPanel Grid.Column="1"
+                                                        Orientation="Vertical">
+                                                <TextBlock Text="{Binding RoomSize, StringFormat=Размер номера: {0}км}"/>
+                                                <TextBlock Text="{Binding QuantityOfSeats, StringFormat=Количество мест: {0}}"/>
+                                                <TextBlock Text="{Binding QuantityOfRooms, StringFormat=Количество комнат: {0}}"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2"
+                                                        Orientation="Vertical">
+                                                <TextBlock Text="{Binding RoomAmenities, StringFormat=Удобства: {0}}"/>
+                                                <TextBlock Text="{Binding WindowView, StringFormat=Вид из окна: {0}}"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="3"
+                                                        Orientation="Vertical">
+                                                <TextBlock Text="{Binding Description, StringFormat=Описание: {0}}"/>
+                                                <TextBlock Text="{Binding Status, StringFormat=Статус: {0}}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
             </TabItem>
             <TabItem Header="Программы">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height=".15*"/>
-                    </Grid.RowDefinitions>
-                </Grid>
+                <ListView ItemsSource="{Binding SanatoriumPrograms}">
+
+                </ListView>
             </TabItem>
         </TabControl>
     </Grid>

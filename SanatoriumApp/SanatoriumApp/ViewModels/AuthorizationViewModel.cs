@@ -39,8 +39,8 @@ namespace SanatoriumApp.ViewModels
                 //var role2 = new Role { Title = "Manager" };
                 //var user1 = new User { Login = "admin", Password = "admin", Role = role1 };
                 //var user2 = new User { Login = "manager", Password = "manager", Role = role2 };
-                //var client1 = new Client { LastName = "Аксёнов", FirstName = "Александр", MiddleName = "Игоревич", DateOfBirth = new DateTime(2003, 03, 20), Gender = 'М', Passport = "кам", User = user1 };
-                //var client2 = new Client { LastName = "Иж", FirstName = "Пётр", MiddleName = "Алексеевич", DateOfBirth = new DateTime(2004, 03, 20), Gender = 'Ж', Passport = "кам1", User = user2 };
+                //var client1 = new Client { LastName = "Аксёнов", FirstName = "Александр", MiddleName = "Игоревич", DateOfBirth = new DateTime(2003, 03, 20), Gender = 'М', PassportSeries = "45 77", PassportNumber="695122"};
+                //var client2 = new Client { LastName = "Иж", FirstName = "Пётр", MiddleName = "Алексеевич", DateOfBirth = new DateTime(2004, 03, 20), Gender = 'Ж', PassportSeries = "02 41", PassportNumber="456789" };
                 //var sanatoriumProgram1 = new SanatoriumProgram { Title = "Стандартная", QuantityOfProcedures = 3, MinDays = 4, Description = "Отсутсвует", Cost = 5999.99M };
                 //var sanatoriumRoomCategory1 = new SanatoriumRoomCategory { Title = "Бизнес - комфорт", Cost = 3000m };
                 //var sanatoriumRoom1 = new SanatoriumRoom { SanatoriumRoomCategory = sanatoriumRoomCategory1, RoomSize = 4, QuantityOfSeats = 3, QuantityOfRooms = 2, RoomAmenities = "Удобства не указаны", WindowView = "Вид на океан", Description = "Отсутсвует", Status = "Не занят" };
@@ -65,17 +65,17 @@ namespace SanatoriumApp.ViewModels
         {
             using (var context = new ApplicationDbContext())
             {
-                var currentClient = context.Clients.Include(u=>u.User).Where(c=>c.User.Login==Login && c.User.Password==Password).First();
-                if (currentClient!=null)
+                var currentUser=context.Users.FirstOrDefault(u=>u.Login==Login && u.Password==Password);
+                if (currentUser!=null)
                 {
-                    if (currentClient.User.RoleId==1)
+                    if (currentUser.RoleId==1)
                     {
-                        new AdministratorWindow(currentClient)
+                        new AdministratorWindow(currentUser)
                         .ShowDialog();
                     }
                     else
                     {
-                        new ManagerWindow(currentClient)
+                        new ManagerWindow(currentUser)
                             .ShowDialog();
                     }
                 }

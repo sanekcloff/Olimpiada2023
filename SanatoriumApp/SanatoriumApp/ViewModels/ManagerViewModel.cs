@@ -9,7 +9,7 @@ namespace SanatoriumApp.ViewModels
 {
     class ManagerViewModel:ViewModelBase
     {
-        public ManagerViewModel(Client client)
+        public ManagerViewModel(User user)
         {
 
         }

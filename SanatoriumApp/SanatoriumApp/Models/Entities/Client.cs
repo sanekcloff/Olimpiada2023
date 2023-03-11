@@ -14,9 +14,9 @@ namespace SanatoriumApp.Models.Entities
         public string FirstName { get; set; } = null!;
         public string? MiddleName { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
-        public char? Gender { get; set; }
-        public string? Passport { get; set; }=null!;
-        public User User { get; set; } = null!;
+        public char Gender { get; set; }
+        public string PassportSeries { get; set; }=null!;
+        public string PassportNumber { get; set; } = null!;
 
         public ICollection<Treaty> Treaties { get; set; } = null!;
 
