@@ -92,7 +92,35 @@
             </TabItem>
             <TabItem Header="Программы">
                 <ListView ItemsSource="{Binding SanatoriumPrograms}">
-
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{Binding Title}"/>
+                                            <StackPanel Grid.Column="1"
+                                                        Orientation="Vertical">
+                                                <TextBlock Text="{Binding QuantityOfProcedures, StringFormat=Количество процедур: {0}}"/>
+                                                <TextBlock Text="{Binding MinDays, StringFormat=Минимальное кол-во дней: {0}}"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2">
+                                                <TextBlock Text="{Binding Cost, StringFormat=Цена: {0} руб.}"/>
+                                                <TextBlock Text="{Binding Description, StringFormat=Описание: {0}}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
                 </ListView>
             </TabItem>
         </TabControl>
