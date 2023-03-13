@@ -45,7 +45,9 @@ namespace SanatoriumApp.ViewModels
                 //var sanatoriumRoomCategory1 = new SanatoriumRoomCategory { Title = "Бизнес - комфорт", Cost = 3000m };
                 //var sanatoriumRoom1 = new SanatoriumRoom { SanatoriumRoomCategory = sanatoriumRoomCategory1, RoomSize = 4, QuantityOfSeats = 3, QuantityOfRooms = 2, RoomAmenities = "Удобства не указаны", WindowView = "Вид на океан", Description = "Отсутсвует", Status = "Не занят" };
                 //var costPerDay1 = new CostPerDay { Cost = sanatoriumProgram1.Cost + sanatoriumRoom1.SanatoriumRoomCategory.Cost, SanatoriumProgram = sanatoriumProgram1, SanatoriumRoom = sanatoriumRoom1 };
-                //var treaty1 = new Treaty { DateOfConclusion = DateTime.Now, DateOfCheckIn = DateTime.Now.AddDays(1), DateOfCheckOut = DateTime.Now.AddDays(1).AddMonths(1), PaymentAmount = costPerDay1.Cost, PaymentMethod = "MasterCard", Client = client1, CostPerDay = costPerDay1 };
+                //var paymentMethod1 = new PaymentMethod { Title = "Мир" };
+                //var paymentMethod2 = new PaymentMethod { Title = "MasterCard" };
+                //var treaty1 = new Treaty { DateOfConclusion = DateTime.Now, DateOfCheckIn = DateTime.Now.AddDays(1), DateOfCheckOut = DateTime.Now.AddDays(1).AddMonths(1), PaymentAmount = costPerDay1.Cost, PaymentMethod = paymentMethod1, Client = client1, CostPerDay = costPerDay1 };
 
                 //context.Roles.AddRange(role1, role2);
                 //context.Users.AddRange(user1, user2);
@@ -54,6 +56,7 @@ namespace SanatoriumApp.ViewModels
                 //context.SanatoriumRoomCategories.Add(sanatoriumRoomCategory1);
                 //context.SanatoriumRooms.Add(sanatoriumRoom1);
                 //context.CostsPerDays.Add(costPerDay1);
+                //context.PaymentMethods.AddRange(paymentMethod1, paymentMethod2);
                 //context.Treaties.Add(treaty1);
                 //context.SaveChanges();
                 #endregion

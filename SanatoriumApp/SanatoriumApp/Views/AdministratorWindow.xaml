@@ -17,7 +17,8 @@
         </Grid.ColumnDefinitions>
         <TabControl Grid.Column="0">
             <TabItem Header="Клиенты">
-                <ListView ItemsSource="{Binding Clients}">
+                <ListView ItemsSource="{Binding Clients}"
+                          SelectedItem="{Binding SelectedClient}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Template">
@@ -51,7 +52,8 @@
                 </ListView>
             </TabItem>
             <TabItem Header="Номера">
-                <ListView ItemsSource="{Binding SanatoriumRooms}">
+                <ListView ItemsSource="{Binding SanatoriumRooms}"
+                          SelectedItem="{Binding SelectedRoom}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Template">
@@ -91,7 +93,8 @@
                 </ListView>
             </TabItem>
             <TabItem Header="Программы">
-                <ListView ItemsSource="{Binding SanatoriumPrograms}">
+                <ListView ItemsSource="{Binding SanatoriumPrograms}"
+                          SelectedItem="{Binding SelectedProgram}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Template">
@@ -124,5 +127,78 @@
                 </ListView>
             </TabItem>
         </TabControl>
+        <StackPanel Grid.Column="1">
+            <TextBlock Text="Заселение клиента"
+                       HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Клиент:"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding SelectedClient.FullName}"
+                           Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Номер:"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding SelectedRoom.SanatoriumRoomCategory.Title}"
+                           Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Программа:"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding SelectedProgram.Title}"
+                           Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Дата заселения:"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"/>
+                <DatePicker SelectedDate="{Binding DateOfCheckIn, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Дата выселения:"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"/>
+                <DatePicker SelectedDate="{Binding DateOfCheckOut, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Способ оплаты:"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"/>
+                <ComboBox Width="120"
+                          Margin="5,0,0,0"
+                          ItemsSource="{Binding PaymentMethods}"
+                          SelectedItem="{Binding SelectedPaymentMethod}"
+                          DisplayMemberPath="Title"
+                          SelectedIndex="0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Цена за сутки:"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding PaymentAmount}"
+                           Margin="5,0,0,0"/>
+            </StackPanel>
+            <StackPanel Margin="0,20,0,0"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button x:Name="AddTreatyButton"
+                        Height="30"
+                        Width="60"
+                        Content="Заселить"
+                        Margin="0,0,10,0"
+                        Click="AddTreatyButton_Click"/>
+                <Button Name="RemoveFieldsButton"
+                        Height="30"
+                        Width="60"
+                        Content="Сбросить"
+                        Margin="10,0,0,0"
+                        Click="RemoveFieldsButton_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

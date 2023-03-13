@@ -15,7 +15,7 @@ namespace SanatoriumApp.Services
         {
             using (var context = new ApplicationDbContext()) { return context.SanatoriumRooms.Include(src=>src.SanatoriumRoomCategory).ToList(); }
         }
-        internal static List<SanatoriumRoom> GetAllSanatoriumRoomsBusyStatus()
+        internal static List<SanatoriumRoom> GetAllSanatoriumRoomsNotBusyStatus()
         {
             using (var context = new ApplicationDbContext()) { return context.SanatoriumRooms.Include(src => src.SanatoriumRoomCategory).Where(sr=>sr.Status== "Не занят").ToList(); }
         }

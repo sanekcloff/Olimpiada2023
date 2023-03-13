@@ -20,8 +20,8 @@ namespace SanatoriumApp.Models
             Database.EnsureCreated();
         }
 
-        //private const string connectionString = @"Server=localhost\SQLEXPRESS; Database=OLIMP_XX; Trusted_Connection=true;";
-        private const string connectionString = @"Server=DESKTOP-I8L1GP6; Database=OLIMP_XX; Trusted_Connection=true;";
+        private const string connectionString = @"Server=localhost\SQLEXPRESS; Database=OLIMP_XX; Trusted_Connection=true;";
+        //private const string connectionString = @"Server=DESKTOP-I8L1GP6; Database=OLIMP_XX; Trusted_Connection=true;";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -38,40 +38,41 @@ namespace SanatoriumApp.Models
         public DbSet<Treaty> Treaties { get; set; } = null!;
         public DbSet<User> Users { get;set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
+        public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Role>()
-                .HasMany(u=>u.Users)
-                .WithOne(r=>r.Role)
-                .HasForeignKey(r => r.RoleId);
+            //modelBuilder.Entity<Role>()
+            //    .HasMany(u=>u.Users)
+            //    .WithOne(r=>r.Role)
+            //    .HasForeignKey(r => r.RoleId);
 
-            modelBuilder.Entity<SanatoriumRoomCategory>()
-                .HasMany(sr => sr.SanatoriumRooms)
-                .WithOne(sc => sc.SanatoriumRoomCategory)
-                .HasForeignKey(sr => sr.SanatoriumRoomCategoryId);
+            //modelBuilder.Entity<SanatoriumRoomCategory>()
+            //    .HasMany(sr => sr.SanatoriumRooms)
+            //    .WithOne(sc => sc.SanatoriumRoomCategory)
+            //    .HasForeignKey(sr => sr.SanatoriumRoomCategoryId);
 
-            modelBuilder.Entity<SanatoriumProgram>()
-                .HasMany(cpd=>cpd.CostPerDays)
-                .WithOne(sp=>sp.SanatoriumProgram)
-                .HasForeignKey(cpd=>cpd.SanatoriumProgramId);
+            //modelBuilder.Entity<SanatoriumProgram>()
+            //    .HasMany(cpd=>cpd.CostPerDays)
+            //    .WithOne(sp=>sp.SanatoriumProgram)
+            //    .HasForeignKey(cpd=>cpd.SanatoriumProgramId);
 
-            modelBuilder.Entity<SanatoriumRoom>()
-                .HasMany(cpd => cpd.CostPerDays)
-                .WithOne(sr => sr.SanatoriumRoom)
-                .HasForeignKey(cpd=>cpd.SanatoriumRoomId);
+            //modelBuilder.Entity<SanatoriumRoom>()
+            //    .HasMany(cpd => cpd.CostPerDays)
+            //    .WithOne(sr => sr.SanatoriumRoom)
+            //    .HasForeignKey(cpd=>cpd.SanatoriumRoomId);
 
-            modelBuilder.Entity<CostPerDay>()
-                .HasMany(t=>t.Treaties)
-                .WithOne(cpd=>cpd.CostPerDay)
-                .HasForeignKey(t=>t.CostPerDayId);
+            //modelBuilder.Entity<CostPerDay>()
+            //    .HasMany(t=>t.Treaties)
+            //    .WithOne(cpd=>cpd.CostPerDay)
+            //    .HasForeignKey(t=>t.CostPerDayId);
 
-            modelBuilder.Entity<Client>()
-                .HasMany(t => t.Treaties)
-                .WithOne(c => c.Client)
-                .HasForeignKey(t=>t.ClientId);
+            //modelBuilder.Entity<Client>()
+            //    .HasMany(t => t.Treaties)
+            //    .WithOne(c => c.Client)
+            //    .HasForeignKey(t=>t.ClientId);
 
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
         }
     }
 }
