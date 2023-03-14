@@ -12,11 +12,15 @@ namespace SanatoriumApp.Services
     {
         public static decimal CalculateCost(SanatoriumProgram sanatoriumProgram, SanatoriumRoom sanatoriumRoom, DateTime checkIn, DateTime checkOut)
         {
-            return (checkOut.Day - checkIn.Day) * (sanatoriumProgram.Cost + sanatoriumRoom.SanatoriumRoomCategory.Cost);
+            return (checkOut.DayOfYear - checkIn.DayOfYear) * (sanatoriumProgram.Cost + sanatoriumRoom.SanatoriumRoomCategory.Cost);
         }
-        public static void AddCostPerDay(CostPerDay costPerDay)
+        public static void AddCostPerDay(ref CostPerDay costPerDay)
         {
-            using (var context = new ApplicationDbContext()) { context.CostsPerDays.Add(costPerDay); };
+            using (var context = new ApplicationDbContext())
+            {
+                context.CostsPerDays.Add(costPerDay);
+                context.SaveChanges();
+            }
         }
     }
 }

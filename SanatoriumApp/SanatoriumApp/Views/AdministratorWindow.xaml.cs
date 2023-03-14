@@ -31,23 +31,25 @@ namespace SanatoriumApp.Views
 
         private void AddTreatyButton_Click(object sender, RoutedEventArgs e)
         {
-            var newCostPerDay = new CostPerDay
-            {
-                Cost = _viewModel.CostPerDay,
-                SanatoriumRoom = _viewModel.SelectedRoom,
-                SanatoriumProgram = _viewModel.SelectedProgram
+
+            var newCostPerDay = new CostPerDay 
+            { 
+                Cost = _viewModel.SelectedProgram.Cost + _viewModel.SelectedRoom.SanatoriumRoomCategory.Cost,
+                SanatoriumProgramId = _viewModel.SelectedProgram.Id, 
+                SanatoriumRoomId = _viewModel.SelectedRoom.Id
             };
-            CostPerDayService.AddCostPerDay(newCostPerDay);
-            TreatiesService.AddTreaty(new Treaty
+            CostPerDayService.AddCostPerDay(ref newCostPerDay);
+            var newTreaty = new Treaty
             {
                 DateOfConclusion = DateTime.Now,
                 DateOfCheckIn = _viewModel.DateOfCheckIn,
                 DateOfCheckOut = _viewModel.DateOfCheckOut,
-                PaymentMethod = _viewModel.SelectedPaymentMethod,
-                CostPerDay = newCostPerDay,
-                Client = _viewModel.SelectedClient,
-                PaymentAmount = _viewModel.PaymentAmount
-            }); ;
+                PaymentAmount = _viewModel.PaymentAmount,
+                PaymentMethodId = _viewModel.SelectedPaymentMethod.Id,
+                ClientId = _viewModel.SelectedClient.Id,
+                CostPerDayId = newCostPerDay.Id
+            };
+            TreatiesService.AddTreaty(newTreaty);
         }
 
         private void RemoveFieldsButton_Click(object sender, RoutedEventArgs e)
@@ -58,6 +60,23 @@ namespace SanatoriumApp.Views
             _viewModel.DateOfCheckIn= DateTime.Now;
             _viewModel.DateOfCheckOut= DateTime.Now;
             _viewModel.PaymentMethods = null!;
+        }
+
+        private void AddClientMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            new CreateClientWindow()
+                .ShowDialog();
+        }
+
+        private void UpdateClientsList_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Clients=ClientService.GetAllClients();
+        }
+
+        private void RemoveClientMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ClientService.RemoveClient(_viewModel.SelectedClient);
+            _viewModel.Clients = ClientService.GetAllClients();
         }
     }
 }

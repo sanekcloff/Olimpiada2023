@@ -19,6 +19,21 @@
             <TabItem Header="Клиенты">
                 <ListView ItemsSource="{Binding Clients}"
                           SelectedItem="{Binding SelectedClient}">
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Добавить"
+                                      Name="AddClientMenuItem"
+                                      Click="AddClientMenuItem_Click"/>
+                            <MenuItem Header="Редактировать"
+                                      Name="EditClientMenuItem"/>
+                            <MenuItem Header="Удалить"
+                                      Name="RemoveClientMenuItem"
+                                      Click="RemoveClientMenuItem_Click"/>
+                            <MenuItem Header="Обновить"
+                                      Name="UpdateClientsList"
+                                      Click="UpdateClientsList_Click"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Template">

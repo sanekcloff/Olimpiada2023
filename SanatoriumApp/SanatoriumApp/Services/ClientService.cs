@@ -14,5 +14,21 @@ namespace SanatoriumApp.Services
         {
             using (var context = new ApplicationDbContext()) { return context.Clients.ToList(); }
         }
+        internal static void AddClient(Client client)
+        {
+            using (var context = new ApplicationDbContext()) 
+            { 
+                context.Clients.Add(client);
+                context.SaveChanges();
+            }
+        }
+        internal static void RemoveClient(Client client)
+        {
+            using (var context = new ApplicationDbContext()) 
+            { 
+                context.Clients.Remove(client); 
+                context.SaveChanges();
+            }
+        }
     }
 }

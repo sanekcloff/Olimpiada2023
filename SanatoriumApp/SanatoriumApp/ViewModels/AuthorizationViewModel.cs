@@ -74,7 +74,7 @@ namespace SanatoriumApp.ViewModels
                     if (currentUser.RoleId==1)
                     {
                         new AdministratorWindow(currentUser)
-                        .ShowDialog();
+                            .ShowDialog();
                     }
                     else
                     {

@@ -13,7 +13,7 @@ namespace SanatoriumApp.Services
     {
         public static bool CheckMinDays(SanatoriumProgram sanatoriumProgram, DateTime checkIn, DateTime checkOut)
         {
-            if((checkOut.Day-checkIn.Day)>=sanatoriumProgram.MinDays) return true;
+            if((checkOut.DayOfYear-checkIn.DayOfYear)>=sanatoriumProgram.MinDays) return true;
             return false;
         }
         public static DateTime CalculateMinDayOfCheckOut(DateTime checkIn, SanatoriumProgram sanatoriumProgram)
