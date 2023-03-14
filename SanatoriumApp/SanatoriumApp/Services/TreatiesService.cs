@@ -31,6 +31,9 @@ namespace SanatoriumApp.Services
             using (var context = new ApplicationDbContext())
             {
                 context.Treaties.Add(treaty);
+                var newRoomStatus = treaty.CostPerDay.SanatoriumRoom;
+                newRoomStatus.Status = "Занят";
+                context.SanatoriumRooms.Update(newRoomStatus);
                 context.SaveChanges();
                 MessageBox.Show("Договор оформлен!");
             }
