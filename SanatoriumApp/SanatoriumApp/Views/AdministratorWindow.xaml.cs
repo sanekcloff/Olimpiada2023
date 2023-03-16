@@ -32,7 +32,7 @@ namespace SanatoriumApp.Views
         private void AddTreatyButton_Click(object sender, RoutedEventArgs e)
         {
 
-            var newCostPerDay = new CostPerDay 
+            var newCostPerDay = new ServiceCost 
             { 
                 Cost = _viewModel.SelectedProgram.Cost + _viewModel.SelectedRoom.SanatoriumRoomCategory.Cost,
                 SanatoriumProgramId = _viewModel.SelectedProgram.Id, 
@@ -47,7 +47,8 @@ namespace SanatoriumApp.Views
                 PaymentAmount = _viewModel.PaymentAmount,
                 PaymentMethodId = _viewModel.SelectedPaymentMethod.Id,
                 ClientId = _viewModel.SelectedClient.Id,
-                CostPerDayId = newCostPerDay.Id
+                CostPerDayId = newCostPerDay.Id,
+                CostPerDay = newCostPerDay
             };
             TreatiesService.AddTreaty(newTreaty);
         }

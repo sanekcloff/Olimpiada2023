@@ -14,7 +14,7 @@ namespace SanatoriumApp.Services
         {
             return (checkOut.DayOfYear - checkIn.DayOfYear) * (sanatoriumProgram.Cost + sanatoriumRoom.SanatoriumRoomCategory.Cost);
         }
-        public static void AddCostPerDay(ref CostPerDay costPerDay)
+        public static void AddCostPerDay(ref ServiceCost costPerDay)
         {
             using (var context = new ApplicationDbContext())
             {

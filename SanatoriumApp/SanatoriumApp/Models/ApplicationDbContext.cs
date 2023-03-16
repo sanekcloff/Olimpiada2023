@@ -31,7 +31,7 @@ namespace SanatoriumApp.Models
         }
 
         public DbSet<Client> Clients { get; set; } = null!;
-        public DbSet<CostPerDay> CostsPerDays { get; set; } = null!;
+        public DbSet<ServiceCost> CostsPerDays { get; set; } = null!;
         public DbSet<SanatoriumProgram> SanatoriumPrograms { get; set; } = null!;
         public DbSet<SanatoriumRoom> SanatoriumRooms { get; set; } = null!;
         public DbSet<SanatoriumRoomCategory> SanatoriumRoomCategories { get; set; } = null!;
@@ -62,7 +62,7 @@ namespace SanatoriumApp.Models
                 .WithOne(sr => sr.SanatoriumRoom)
                 .HasForeignKey(cpd => cpd.SanatoriumRoomId);
 
-            modelBuilder.Entity<CostPerDay>()
+            modelBuilder.Entity<ServiceCost>()
                 .HasMany(t => t.Treaties)
                 .WithOne(cpd => cpd.CostPerDay)
                 .HasForeignKey(t => t.CostPerDayId);
