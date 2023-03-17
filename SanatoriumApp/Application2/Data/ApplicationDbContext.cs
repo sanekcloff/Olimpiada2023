@@ -5,18 +5,17 @@ namespace Application2.Data
 {
     class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        {
-
-        }
         public ApplicationDbContext()
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
-        private const string connectionString = @"";
+        private const string connectionString = @"Server=localhost\SQLEXPRESS; Database=Olymp_XX; Trusted_Connection=true; TrustServerCertificate=true;";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured) { optionsBuilder.UseSqlServer(connectionString); }
+            if (!optionsBuilder.IsConfigured) 
+            { 
+                optionsBuilder.UseSqlServer(connectionString); 
+            }
         }
 
         public DbSet<Client> Clients { get; set; } = null!;
