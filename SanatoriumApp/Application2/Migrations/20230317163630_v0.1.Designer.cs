@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230317104159_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230317163630_v0.1")]
+    partial class v01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -191,10 +191,6 @@ namespace Application2.Migrations
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

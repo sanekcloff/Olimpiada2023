@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Application2.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class v01 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -79,7 +79,6 @@ namespace Application2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoomSize = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     QuantityOfSeats = table.Column<int>(type: "int", nullable: false),
                     QuantityOfRooms = table.Column<int>(type: "int", nullable: false),

@@ -8,6 +8,24 @@ namespace Application2.Entities
 {
     class Contract
     {
+
+        public Contract()
+        {
+                
+        }
+
+        public Contract(DateTime dateOfConclusion, DateTime dateOfCheckIn, DateTime dateOfCheckOut, decimal paymentAmount, PaymentMethod paymentMethod, Client client, SanatoriumProgram sanatoriumProgram, SanatoriumRoom sanatoriumRoom)
+        {
+            DateOfConclusion = dateOfConclusion;
+            DateOfCheckIn = dateOfCheckIn;
+            DateOfCheckOut = dateOfCheckOut;
+            PaymentAmount = paymentAmount;
+            PaymentMethod = paymentMethod;
+            Client = client;
+            SanatoriumProgram = sanatoriumProgram;
+            SanatoriumRoom = sanatoriumRoom;
+        }
+
         public int Id { get; set; }
 
         public DateTime DateOfConclusion { get; set; }

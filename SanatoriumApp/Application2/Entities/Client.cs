@@ -9,6 +9,23 @@ namespace Application2.Entities
 {
     class Client
     {
+
+        public Client()
+        {
+
+        }
+
+        public Client(string lastName, string firstName, string middleName, DateTime dateOfBirth, char gender, string passportNumber, string passportSeries)
+        {
+            LastName = lastName;
+            FirstName = firstName;
+            MiddleName = middleName;
+            DateOfBirth = dateOfBirth;
+            Gender = gender;
+            PassportNumber = passportNumber;
+            PassportSeries = passportSeries;
+        }
+
         public int Id { get; set; }
 
         public string LastName { get; set; } = null!;

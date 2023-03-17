@@ -9,7 +9,8 @@ namespace Application2.Data
         {
             //Database.EnsureCreated();
         }
-        private const string connectionString = @"Server=localhost\SQLEXPRESS; Database=Olymp_XX; Trusted_Connection=true; TrustServerCertificate=true;";
+        //private const string connectionString = @"Server=localhost\SQLEXPRESS; Database=Olymp_XX; Trusted_Connection=true; TrustServerCertificate=true;";
+        private const string connectionString = @"Server=DESKTOP-I8L1GP6; Database=Olymp_XX; Trusted_Connection=true; TrustServerCertificate=true;";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured) 

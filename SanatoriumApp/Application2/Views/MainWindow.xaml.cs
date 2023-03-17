@@ -1,4 +1,5 @@
 ﻿using Application2.Entities;
+using Application2.Services;
 using Application2.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -25,9 +26,20 @@ namespace Application2.Views
         internal MainWindow(string user)
         {
             InitializeComponent();
-            _viewModel = new MainViewModel();
-            DataContext = _viewModel;
+            _viewModel = (MainViewModel)DataContext;
             Title = $"Роль: {user}";
+        }
+
+        private void AddClientButton_Click(object sender, RoutedEventArgs e)
+        {
+            var canExecute = ClientService.AddClient(
+                new Client(_viewModel.LastName, _viewModel.FirstName, _viewModel.MiddleName,_viewModel.DateOfBirth, _viewModel.SelectedGender[_viewModel.SelectedGender.Length-1],_viewModel.PassportNumber, _viewModel.PassportSeries));
+            if (canExecute)  _viewModel.ResetValues();
+        }
+
+        private void AddContrctButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

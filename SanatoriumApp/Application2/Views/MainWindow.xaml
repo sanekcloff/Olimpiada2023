@@ -4,62 +4,150 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Application2.Views"
+        xmlns:vm="clr-namespace:Application2.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center">
-            <TextBlock Text="Дата заезда: "
-                       VerticalAlignment="Center"/>
-            <DatePicker SelectedDate="{Binding DateOfCheckIn}"/>
-            <TextBlock Text="Дата выезда: "
-                       Margin="40,0,0,0"
-                       VerticalAlignment="Center"/>
-            <DatePicker SelectedDate="{Binding DateOfCheckOut}"/>
-        </StackPanel>
-
-        <TabControl Grid.Row="1">
-            <TabItem Header="Клиент">
-                <ListView ItemsSource="{Binding Clients}"
-                          SelectedItem="{Binding SelectedClient}">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListViewItem">
-                                        <Border Background="Wheat"
-                                                CornerRadius="10"
-                                                Height="20">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding FullName}"/>
-                                                <TextBlock Text="{Binding DateOfBirth,StringFormat=dd.MM.yyyy}"
-                                                           Margin="10,0,0,0"/>
-                                                <TextBlock Text="{Binding Gender}"
-                                                           Margin="10,0,0,0"/>
-                                                <TextBlock Text="{Binding PassportNumber}"
-                                                           Margin="10,0,0,0"/>
-                                                <TextBlock Text="{Binding PassportSeries}"
-                                                           Margin="10,0,0,0"/>
-                                            </StackPanel>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
+        <TabControl>
+            <TabItem Header="Регистрация клиента">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Фамилия"/>
+                    <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Имя"/>
+                    <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Отчество"/>
+                    <TextBox Text="{Binding MiddleName, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Дата рождения"/>
+                    <DatePicker SelectedDate="{Binding DateOfBirth, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Пол"/>
+                    <ComboBox ItemsSource="{Binding Genders, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedGender, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Серия паспорта"/>
+                    <TextBox Text="{Binding PassportSeries, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="Номер паспорта"/>
+                    <TextBox Text="{Binding PassportNumber, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button x:Name="AddClientButton"
+                            Click="AddClientButton_Click"
+                            Content="Добавить клиента"
+                            Margin="0,20,0,0"/>
+                </StackPanel>
             </TabItem>
-            <TabItem Header="Номер">
-
-            </TabItem>
-            <TabItem Header="Программа">
-
+            <TabItem Header="Вселение клиента">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width=".65*"/>
+                    </Grid.ColumnDefinitions>
+                    <TabControl>
+                        <TabItem Header="Клиенты">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.1*"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBox Grid.Row="0"
+                                         Text="{Binding SearchClient, UpdateSourceTrigger=PropertyChanged}"/>
+                                <ListView ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedItem="{Binding SelectedClient, UpdateSourceTrigger=PropertyChanged}"
+                                          Grid.Row="1">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListViewItem">
+                                                        <Border Background="Wheat"
+                                                                CornerRadius="10"
+                                                                Height="20"
+                                                                Margin="3">
+                                                            <TextBlock Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                </ListView>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Номера">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.1*"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <ComboBox/>
+                                <ListView ItemsSource="{Binding SanatoriumRooms, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedItem="{Binding SelectedSanatoriumRoom, UpdateSourceTrigger=PropertyChanged}"
+                                          Grid.Row="1">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListViewItem">
+                                                        <Border Background="Wheat"
+                                                                CornerRadius="10"
+                                                                Height="20"
+                                                                Margin="3">
+                                                            <TextBlock Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                </ListView>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Программы">
+                            <ListView ItemsSource="{Binding SanatoriumPrograms, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedItem="{Binding SelectedSanatoriumProgram, UpdateSourceTrigger=PropertyChanged}">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListViewItem">
+                                                    <Border Background="Wheat"
+                                                                CornerRadius="10"
+                                                                Height="20"
+                                                                Margin="3">
+                                                        <TextBlock Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </TabItem>
+                    </TabControl>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Формирование договора"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,20,0,0"
+                                   FontSize="20"/>
+                        <TextBlock Text="{Binding SelectedClient.FullName, StringFormat=Клиент: {0}}"
+                                   Margin="0,20,0,0"/>
+                        <TextBlock Text="{Binding SelectedSanatoriumProgram.Title, StringFormat=Программа: {0}}"
+                                   Margin="0,20,0,0"/>
+                        <TextBlock Text="{Binding SelectedSanatoriumRoom.SanatoriumRoomCategory.Title, StringFormat=Номер: {0}}"
+                                   Margin="0,20,0,0"/>
+                        <TextBlock Text="Метод оплаты"/>
+                        <ComboBox ItemsSource="{Binding PaymentMethods}"
+                                  SelectedItem="{Binding SelectedPaymentMethod}"
+                                  DisplayMemberPath="Title"/>
+                        <Button x:Name="AddContrctButton"
+                                Margin="0,40,0,0"
+                                Content="Оформить"
+                                Width="100"
+                                Click="AddContrctButton_Click"/>
+                    </StackPanel>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
