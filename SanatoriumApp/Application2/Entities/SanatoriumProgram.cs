@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application2.Entities
 {
-    class SanatoriumProgram
+    public class SanatoriumProgram
     {
         public int Id { get; set; }
 
@@ -14,6 +14,7 @@ namespace Application2.Entities
         public int QuantityOfProcedures { get; set; }
         public int MinQuantityDays { get; set; }
         public string Description { get; set; } = null!;
+        public decimal Cost { get; set; }
 
         public ICollection<Contract> Contracts { get; set; } = null!;
     }

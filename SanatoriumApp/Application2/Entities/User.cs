@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application2.Entities
 {
-    internal enum User
+    public enum User
     {
         admin,
         manager

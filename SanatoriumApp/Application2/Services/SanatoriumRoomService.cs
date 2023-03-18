@@ -10,22 +10,26 @@ using System.Threading.Tasks;
 
 namespace Application2.Services
 {
-    class SanatoriumRoomService
+    public class SanatoriumRoomService
     {
         private ApplicationDbContext _ctx;
 
-        public SanatoriumRoomService(ApplicationDbContext context)
+        public SanatoriumRoomService(ApplicationDbContext ctx)
         {
-            _ctx = context;
+            _ctx = ctx;
         }
 
         public ICollection<SanatoriumRoom> GetSanatoriumRooms()
         {
-            return _ctx.SanatoriumRooms.Include(sr => sr.SanatoriumRoomCategory).ToList();
+            return _ctx.SanatoriumRooms
+                .Include(sr => sr.SanatoriumRoomCategory)
+                .ToList();
         }
-        public ICollection<SanatoriumRoom> GetSanatoriumRoomsWithStatus()
+        public void Update(SanatoriumRoom room, bool isBusy)
         {
-            return _ctx.SanatoriumRooms.Include(sr => sr.SanatoriumRoomCategory).Where(sr => sr.Status == false).ToList();
+            room.Status = isBusy;
+            _ctx.SanatoriumRooms.Update(room);
+            _ctx.SaveChanges();
         }
     }
 }

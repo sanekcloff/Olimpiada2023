@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application2.Entities
 {
-    class SanatoriumRoomCategory
+    public class SanatoriumRoomCategory
     {
         public int Id { get; set; }
 

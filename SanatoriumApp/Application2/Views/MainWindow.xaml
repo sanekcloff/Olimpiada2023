@@ -36,8 +36,7 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="Вселение клиента"
-                     x:Name="ContractTab" ContextMenuOpening="ContractTab_ContextMenuOpening"
-                     >
+                     x:Name="ContractTab">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -188,7 +187,7 @@
                         <TextBlock Text="Общая стоимость"
                                    HorizontalAlignment="Center"/>
                         <TextBlock HorizontalAlignment="Center"
-                                   />
+                                   Text="{Binding PaymentAmount, ConverterCulture=ru-RU,StringFormat={}{0:C}}"/>
                         <Button x:Name="AddContractButton"
                                 Margin="0,40,0,0"
                                 Content="Оформить"

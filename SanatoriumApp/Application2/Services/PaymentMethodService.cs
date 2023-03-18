@@ -8,14 +8,18 @@ using System.Threading.Tasks;
 
 namespace Application2.Services
 {
-    static class PaymentMethodService
+    public class PaymentMethodService
     {
-        public static ICollection<PaymentMethod> GetPaymentMethods()
+        private ApplicationDbContext _ctx;
+
+        public PaymentMethodService(ApplicationDbContext ctx)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                return context.PaymentMethods.ToList();
-            }
+            _ctx = ctx;
+        }
+
+        public ICollection<PaymentMethod> GetPaymentMethods()
+        {
+            return _ctx.PaymentMethods.ToList();
         }
     }
 }

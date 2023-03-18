@@ -8,14 +8,18 @@ using System.Threading.Tasks;
 
 namespace Application2.Services
 {
-    static class SanatoriumProgramService
+    public class SanatoriumProgramService
     {
-        public static ICollection<SanatoriumProgram> GetSanatoriumPrograms()
+        private ApplicationDbContext _ctx;
+
+        public SanatoriumProgramService(ApplicationDbContext ctx)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                return context.SanatoriumPrograms.ToList();
-            }
+            _ctx = ctx;
+        }
+
+        public ICollection<SanatoriumProgram> GetSanatoriumPrograms()
+        {
+            return _ctx.SanatoriumPrograms.ToList();
         }
     }
 }

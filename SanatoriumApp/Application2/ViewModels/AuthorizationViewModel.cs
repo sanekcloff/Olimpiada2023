@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace Application2.ViewModels
 {
-    internal class AuthorizationViewModel:ViewModelBase
+    public class AuthorizationViewModel:ViewModelBase
     {
         private string _login=null!;
         private string _password=null!;

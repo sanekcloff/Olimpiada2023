@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application2.ViewModels
 {
-    internal class MainViewModel:ViewModelBase
+    public class MainViewModel:ViewModelBase
     {
         #region Registration Client properties & fields
         private string _lastName = null!;
@@ -47,16 +47,52 @@ namespace Application2.ViewModels
         private SanatoriumRoom _selectedSanatoriumRoom;
         private SanatoriumProgram _selectedSanatoriumProgram;
 
+        private decimal _paymentAmount;
+
         public List<Client> Clients { get => _clients; set => Set(ref _clients, value, nameof(Clients)); }
         public List<SanatoriumRoom> SanatoriumRooms { get => _sanatoriumRooms; set => Set(ref _sanatoriumRooms, value, nameof(SanatoriumRooms)); }
         public List<SanatoriumProgram> SanatoriumPrograms { get => _sanatoriumPrograms; set => Set(ref _sanatoriumPrograms, value, nameof(SanatoriumPrograms)); }
 
-        public DateTime DateOfCheckIn { get => _dateOfCheckIn;set => Set(ref _dateOfCheckIn,value, nameof(DateOfCheckIn)); }
-        public DateTime DateOfCheckOut {  get => _dateOfCheckOut; set => Set(ref _dateOfCheckOut, value, nameof(DateOfCheckOut)); }
+        public DateTime DateOfCheckIn 
+        { 
+            get => _dateOfCheckIn;
+            set 
+            {
+                Set(ref _dateOfCheckIn, value, nameof(DateOfCheckIn));
+                CalculatePaymentAmount();
+            } 
+        }
+        public DateTime DateOfCheckOut 
+        {  
+            get => _dateOfCheckOut;
+            set 
+            {
+                Set(ref _dateOfCheckOut, value, nameof(DateOfCheckOut));
+                CalculatePaymentAmount();
+            } 
+        }
 
         public Client SelectedClient {  get => _selectedClient;  set => Set(ref _selectedClient, value, nameof(SelectedClient)); }
-        public SanatoriumRoom SelectedSanatoriumRoom { get => _selectedSanatoriumRoom; set => Set(ref _selectedSanatoriumRoom, value, nameof(SelectedSanatoriumRoom)); }
-        public SanatoriumProgram SelectedSanatoriumProgram { get => _selectedSanatoriumProgram; set => Set(ref _selectedSanatoriumProgram, value, nameof(SelectedSanatoriumProgram)); }
+        public SanatoriumRoom SelectedSanatoriumRoom 
+        { 
+            get => _selectedSanatoriumRoom;
+            set 
+            {
+                Set(ref _selectedSanatoriumRoom, value, nameof(SelectedSanatoriumRoom));
+                CalculatePaymentAmount();
+            } 
+        }
+        public SanatoriumProgram SelectedSanatoriumProgram 
+        { 
+            get => _selectedSanatoriumProgram;
+            set 
+            {
+                Set(ref _selectedSanatoriumProgram, value, nameof(SelectedSanatoriumProgram));
+                CalculatePaymentAmount();
+            } 
+        }
+        
+        public decimal PaymentAmount { get => _paymentAmount; set => Set(ref _paymentAmount, value, nameof(PaymentAmount)); }
         #endregion
 
         #region Contract properties & fields
@@ -73,7 +109,7 @@ namespace Application2.ViewModels
             set 
             {
                 Set(ref _searchClient, value, nameof(SearchClient));
-                Clients = ClientService.SearchClient(value).ToList();
+                Clients = ClientService.Search(value).ToList();
             } 
         }
         public string SelectedFilther 
@@ -91,24 +127,37 @@ namespace Application2.ViewModels
             set 
             {
                 Set(ref _selectedStatus, value, nameof(SelectedStatus));
+                AllFilthers();
             }
         }
-        public decimal SelectedCost 
-        { 
-            get => _selectedCost; 
-            set => Set(ref _selectedCost, value, nameof(SelectedCost)); 
+        public decimal SelectedCost
+        {
+            get => _selectedCost;
+            set
+            {
+                Set(ref _selectedCost, value, nameof(SelectedCost));
+                AllFilthers();
+            }
         }
         public int SelectedSeats 
         { 
             get => _selectedSeats;
-            set => Set(ref _selectedSeats,value,nameof(SelectedSeats)); 
+            set 
+            {
+                Set(ref _selectedSeats, value, nameof(SelectedSeats));
+                AllFilthers();
+            } 
         }
 
 
-        public PaymentMethod SelectedPaymentMethod 
-        { 
-            get => _selectedPaymentMethod; 
-            set => Set(ref _selectedPaymentMethod, value, nameof(SelectedPaymentMethod)); 
+        public PaymentMethod SelectedPaymentMethod
+        {
+            get => _selectedPaymentMethod;
+            set
+            {
+                Set(ref _selectedPaymentMethod, value, nameof(SelectedPaymentMethod));
+                CalculatePaymentAmount();
+            }
         }
 
 
@@ -132,27 +181,43 @@ namespace Application2.ViewModels
         #endregion
 
         #region Services
+        public ContractService ContractService { get; }
+        public ClientService ClientService { get; }
         public SanatoriumRoomService RoomService { get; }
+        public SanatoriumProgramService ProgramService { get; }
+        public PaymentMethodService PaymentMethodService { get; }
+        
         #endregion
 
+
+        private ApplicationDbContext _context;
         public MainViewModel()
         {
-            DateOfCheckIn=DateTime.Now;
-            DateOfCheckOut=DateTime.Now.AddDays(1);
+            _context = new ApplicationDbContext();
+            //Подгрузка сервисов
+            ContractService= new ContractService(_context);
+            ClientService = new ClientService(_context);
+            RoomService = new SanatoriumRoomService(_context);
+            ProgramService= new SanatoriumProgramService(_context);
+            PaymentMethodService= new PaymentMethodService(_context);
 
+            //Заполнение листов
             Clients= new List<Client>(ClientService.GetClients());
-            SanatoriumRooms = new List<SanatoriumRoom>(new SanatoriumRoomService(new ApplicationDbContext()).GetSanatoriumRoomsWithStatus());
-            SanatoriumPrograms = new List<SanatoriumProgram>(SanatoriumProgramService.GetSanatoriumPrograms());
+            SanatoriumRooms = new List<SanatoriumRoom>(RoomService.GetSanatoriumRooms());
+            SanatoriumPrograms = new List<SanatoriumProgram>(ProgramService.GetSanatoriumPrograms());
+            PaymentMethods = new List<PaymentMethod>(PaymentMethodService.GetPaymentMethods());
+
+            DateOfCheckIn = DateTime.Now;
+            DateOfCheckOut = DateTime.Now.AddDays(1);
 
             SelectedGender = Genders[0];
-            PaymentMethods= new List<PaymentMethod>(PaymentMethodService.GetPaymentMethods());
             SelectedPaymentMethod = PaymentMethods[0];
-
-            RoomService = new SanatoriumRoomService(new ApplicationDbContext());
             SelectedFilther = FiltherValues[0];
+            SelectedStatus = StatusValues[2];
+            PaymentAmount = 0;
         }
 
-        internal void ResetValues()
+        public void ResetValues()
         {
             SelectedGender = Genders[0];
             FirstName = string.Empty;
@@ -162,29 +227,70 @@ namespace Application2.ViewModels
             PassportNumber= string.Empty;
             PassportSeries=string.Empty;
         }
-        internal void UpdateLists()
+        public void UpdateLists()
         {
             Clients = new List<Client>(ClientService.GetClients());
-            SanatoriumRooms = new List<SanatoriumRoom>(RoomService.GetSanatoriumRoomsWithStatus());
-            SanatoriumPrograms = new List<SanatoriumProgram>(SanatoriumProgramService.GetSanatoriumPrograms());
+            AllFilthers();
+            SanatoriumPrograms = new List<SanatoriumProgram>(ProgramService.GetSanatoriumPrograms());
         }
-        internal void AllFilthers()
+        public void AllFilthers()
         {
-            SanatoriumRooms=GetRoomsByCategory(RoomService.GetSanatoriumRooms().ToList());
+            SanatoriumRooms = FiltherStatus(FiltherSeats(FiltherCosts(FiltherCategories(RoomService
+                .GetSanatoriumRooms()
+                .ToList()))))
+                ;
         }
 
         #region Room filthers
-        internal List<SanatoriumRoom> GetRoomsByCategory(List<SanatoriumRoom> sr)
+        public List<SanatoriumRoom> FiltherCategories(List<SanatoriumRoom> sr)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                if (SelectedFilther == FiltherValues[0])
-                    return sr;
-                else
-                    return sr
-                        .Where(sr => sr.SanatoriumRoomCategory.Title == SelectedFilther)
-                        .ToList(); ;
-            }
+            if (SelectedFilther == FiltherValues[0])
+                return sr;
+            else
+                return sr
+                    .Where(sr => sr.SanatoriumRoomCategory.Title == SelectedFilther)
+                    .ToList();
+        }
+        public List<SanatoriumRoom> FiltherCosts(List<SanatoriumRoom> sr)
+        {
+            if (SelectedCost <= 0)
+                return sr;
+            else
+                return sr
+                    .Where(sr => sr.FullCost <= SelectedCost)
+                    .ToList();
+        }
+        public List<SanatoriumRoom> FiltherSeats(List<SanatoriumRoom> sr)
+        {
+            if (SelectedSeats <= 0)
+                return sr;
+            else
+                return sr
+                    .Where(sr => sr.QuantityOfSeats == SelectedSeats)
+                    .ToList();
+        }
+        public List<SanatoriumRoom> FiltherStatus(List<SanatoriumRoom> sr)
+        {
+            if (SelectedStatus == StatusValues[2])
+                return sr
+                    .Where(sr=>sr.Status==false)
+                    .ToList();
+            else if (SelectedStatus == StatusValues[1])
+                return sr
+                    .Where(sr => sr.Status == true)
+                    .ToList();
+            else
+                return sr;
+        }
+        #endregion
+
+        #region CostPerDay
+        public void CalculatePaymentAmount()
+        {
+            if (SelectedSanatoriumProgram != null && SelectedSanatoriumRoom != null)
+                PaymentAmount = (DateOfCheckOut.DayOfYear - DateOfCheckIn.DayOfYear) * (SelectedSanatoriumRoom.FullCost + SelectedSanatoriumProgram.Cost);
+            if (SelectedPaymentMethod!=null && SelectedPaymentMethod.Id == 3)
+                PaymentAmount -= PaymentAmount * 0.05M;
         }
         #endregion
     }

@@ -9,17 +9,22 @@ using System.Windows;
 
 namespace Application2.Services
 {
-    static class ClientService
+    public class ClientService
     {
-        public static ICollection<Client> GetClients()
+        private ApplicationDbContext _ctx;
+
+        public ClientService(ApplicationDbContext ctx)
         {
-            using (var context = new ApplicationDbContext())
-            { 
-                return context.Clients.ToList();
-            }
+            _ctx = ctx;
         }
 
-        public static bool AddClient(Client client)
+        public ICollection<Client> GetClients()
+        {
+            return _ctx.Clients
+                .ToList();
+        }
+
+        public bool Insert(Client client)
         {
             if (client.LastName==string.Empty
                 ||client.FirstName==string.Empty
@@ -30,22 +35,20 @@ namespace Application2.Services
                 MessageBox.Show("Все поля должны быть заполнены!");
                 return false;
             }
-            using (var context = new ApplicationDbContext()) 
-            { 
-                context.Clients.Add(client);
-                context.SaveChanges();
-                MessageBox.Show($"Клиент {client.FullName} успешно добавлен!");
-                return true;
-            }
+            _ctx.Clients.Add(client);
+            _ctx.SaveChanges();
+            MessageBox.Show($"Клиент {client.FullName} успешно добавлен!");
+            return true;
         }
 
-        public static ICollection<Client> SearchClient(string searchValue) 
+        public ICollection<Client> Search(string searchValue) 
         { 
-            using (var context = new ApplicationDbContext())
+            using (var _ctx = new ApplicationDbContext())
             {
                 if(searchValue!=string.Empty)
-                return context.Clients.Where(c=>c.LastName.Contains(searchValue)).ToList();
-                else return GetClients();
+                    return _ctx.Clients.Where(c=>c.LastName.Contains(searchValue)).ToList();
+                else 
+                    return GetClients();
             }
         }
     }

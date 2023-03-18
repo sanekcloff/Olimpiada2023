@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application2.Entities
 {
-    class Client
+    public class Client
     {
 
         public Client()

@@ -52,7 +52,8 @@ namespace Application2.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QuantityOfProcedures = table.Column<int>(type: "int", nullable: false),
                     MinQuantityDays = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cost = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
