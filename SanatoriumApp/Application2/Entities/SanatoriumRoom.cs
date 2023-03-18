@@ -28,5 +28,6 @@ namespace Application2.Entities
 
         [NotMapped]
         public decimal FullCost { get => Cost * SanatoriumRoomCategory.Coefficient; }
+        public string StringStatus { get => Status ? "Занят" : "Свободен"; }
     }
 }

@@ -10,21 +10,22 @@ using System.Threading.Tasks;
 
 namespace Application2.Services
 {
-    static class SanatoriumRoomService
+    class SanatoriumRoomService
     {
-        public static ICollection<SanatoriumRoom> GetSanatoriumRooms()
+        private ApplicationDbContext _ctx;
+
+        public SanatoriumRoomService(ApplicationDbContext context)
         {
-            using (var context = new ApplicationDbContext())
-            {
-                return context.SanatoriumRooms.Include(sr=>sr.SanatoriumRoomCategory).ToList();
-            }
+            _ctx = context;
         }
-        public static ICollection<SanatoriumRoom> GetSanatoriumRoomsWithStatus()
+
+        public ICollection<SanatoriumRoom> GetSanatoriumRooms()
         {
-            using (var context = new ApplicationDbContext())
-            {
-                return context.SanatoriumRooms.Include(sr => sr.SanatoriumRoomCategory).Where(sr => sr.Status == false).ToList();
-            }
+            return _ctx.SanatoriumRooms.Include(sr => sr.SanatoriumRoomCategory).ToList();
+        }
+        public ICollection<SanatoriumRoom> GetSanatoriumRoomsWithStatus()
+        {
+            return _ctx.SanatoriumRooms.Include(sr => sr.SanatoriumRoomCategory).Where(sr => sr.Status == false).ToList();
         }
     }
 }

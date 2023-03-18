@@ -1,4 +1,5 @@
-﻿using Application2.Entities;
+﻿using Application2.Data;
+using Application2.Entities;
 using Application2.Services;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,10 @@ namespace Application2.ViewModels
 
         #region Contract properties & fields
         private string _searchClient = null!;
-        private string _selectedSort = null!;
+        private string _selectedFilther = null!;
+        private string _selectedStatus = null!;
+        private decimal _selectedCost;
+        private int _selectedSeats;
         private PaymentMethod _selectedPaymentMethod = null!;
 
         public string SearchClient 
@@ -72,33 +76,63 @@ namespace Application2.ViewModels
                 Clients = ClientService.SearchClient(value).ToList();
             } 
         }
-        public string SelectedSort 
+        public string SelectedFilther 
         { 
-            get => _selectedSort; 
+            get => _selectedFilther; 
             set
             {
-                Set(ref _selectedSort, value, nameof(SelectedSort));
+                Set(ref _selectedFilther, value, nameof(SelectedFilther));
+                AllFilthers();
             }
         }
+        public string SelectedStatus 
+        { 
+            get => _selectedStatus;
+            set 
+            {
+                Set(ref _selectedStatus, value, nameof(SelectedStatus));
+            }
+        }
+        public decimal SelectedCost 
+        { 
+            get => _selectedCost; 
+            set => Set(ref _selectedCost, value, nameof(SelectedCost)); 
+        }
+        public int SelectedSeats 
+        { 
+            get => _selectedSeats;
+            set => Set(ref _selectedSeats,value,nameof(SelectedSeats)); 
+        }
+
+
         public PaymentMethod SelectedPaymentMethod 
         { 
             get => _selectedPaymentMethod; 
             set => Set(ref _selectedPaymentMethod, value, nameof(SelectedPaymentMethod)); 
         }
+
+
         public List<PaymentMethod> PaymentMethods { get; }
 
-        // ПОД ВОПРОСОМ
-        //public List<string> SortValues { get; } = new List<string>()
-        //{
-        //    "По категории(возр.)",
-        //    "По категории(убыв.)",
-        //    "По цене за сутки(возр.)",
-        //    "По цене за сутки(убыв.)",
-        //    "По кол-ву мест(возр.)",
-        //    "По кол-ву мест(убыв.)",
-        //    "По статусу(возр.)",
-        //    "По статусу(убыв.)",
-        //}; 
+        //ВОПРОС
+        public List<string> FiltherValues { get; } = new List<string>()
+        {
+            "Все категории",
+            "Стандартный",
+            "Премиум",
+            "Люкс"
+        };
+        public List<string> StatusValues { get; } = new List<string>()
+        {
+            "Все статусы",
+            "Занят",
+            "Свободен"
+        };
+
+        #endregion
+
+        #region Services
+        public SanatoriumRoomService RoomService { get; }
         #endregion
 
         public MainViewModel()
@@ -107,12 +141,15 @@ namespace Application2.ViewModels
             DateOfCheckOut=DateTime.Now.AddDays(1);
 
             Clients= new List<Client>(ClientService.GetClients());
-            SanatoriumRooms = new List<SanatoriumRoom>(SanatoriumRoomService.GetSanatoriumRoomsWithStatus());
+            SanatoriumRooms = new List<SanatoriumRoom>(new SanatoriumRoomService(new ApplicationDbContext()).GetSanatoriumRoomsWithStatus());
             SanatoriumPrograms = new List<SanatoriumProgram>(SanatoriumProgramService.GetSanatoriumPrograms());
 
             SelectedGender = Genders[0];
             PaymentMethods= new List<PaymentMethod>(PaymentMethodService.GetPaymentMethods());
             SelectedPaymentMethod = PaymentMethods[0];
+
+            RoomService = new SanatoriumRoomService(new ApplicationDbContext());
+            SelectedFilther = FiltherValues[0];
         }
 
         internal void ResetValues()
@@ -125,5 +162,30 @@ namespace Application2.ViewModels
             PassportNumber= string.Empty;
             PassportSeries=string.Empty;
         }
+        internal void UpdateLists()
+        {
+            Clients = new List<Client>(ClientService.GetClients());
+            SanatoriumRooms = new List<SanatoriumRoom>(RoomService.GetSanatoriumRoomsWithStatus());
+            SanatoriumPrograms = new List<SanatoriumProgram>(SanatoriumProgramService.GetSanatoriumPrograms());
+        }
+        internal void AllFilthers()
+        {
+            SanatoriumRooms=GetRoomsByCategory(RoomService.GetSanatoriumRooms().ToList());
+        }
+
+        #region Room filthers
+        internal List<SanatoriumRoom> GetRoomsByCategory(List<SanatoriumRoom> sr)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                if (SelectedFilther == FiltherValues[0])
+                    return sr;
+                else
+                    return sr
+                        .Where(sr => sr.SanatoriumRoomCategory.Title == SelectedFilther)
+                        .ToList(); ;
+            }
+        }
+        #endregion
     }
 }

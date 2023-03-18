@@ -37,9 +37,14 @@ namespace Application2.Views
             if (canExecute)  _viewModel.ResetValues();
         }
 
-        private void AddContrctButton_Click(object sender, RoutedEventArgs e)
+        private void AddContractButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ContractTab_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            _viewModel.UpdateLists();
         }
     }
 }

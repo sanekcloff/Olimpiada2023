@@ -35,7 +35,9 @@
                             Margin="0,20,0,0"/>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Вселение клиента">
+            <TabItem Header="Вселение клиента"
+                     x:Name="ContractTab" ContextMenuOpening="ContractTab_ContextMenuOpening"
+                     >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -76,10 +78,25 @@
                         <TabItem Header="Номера">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="0.1*"/>
+                                    <RowDefinition Height="0.3*"/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <ComboBox/>
+                                <StackPanel Grid.Row="0">
+                                    <ComboBox ItemsSource="{Binding FiltherValues, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding SelectedFilther, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <ComboBox ItemsSource="{Binding StatusValues, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding SelectedStatus, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Макс. цена: "/>
+                                        <TextBox Width="100"
+                                                 Text="{Binding SelectedCost, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Кол-во мест: "/>
+                                        <TextBox Width="100"
+                                                 Text="{Binding SelectedSeats, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </StackPanel>
                                 <ListView ItemsSource="{Binding SanatoriumRooms, UpdateSourceTrigger=PropertyChanged}"
                                           SelectedItem="{Binding SelectedSanatoriumRoom, UpdateSourceTrigger=PropertyChanged}"
                                           Grid.Row="1">
@@ -92,8 +109,16 @@
                                                                 CornerRadius="10"
                                                                 Height="20"
                                                                 Margin="3">
-                                                            <TextBlock Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="{Binding SanatoriumRoomCategory.Title, UpdateSourceTrigger=PropertyChanged}"
                                                                        Margin="10,0,0,0"/>
+                                                                <TextBlock Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, StringFormat=Описание: {0}}"
+                                                                       Margin="10,0,0,0"/>
+                                                                <TextBlock Text="{Binding QuantityOfSeats, UpdateSourceTrigger=PropertyChanged, StringFormat=Кол-во мест: {0}}"
+                                                                       Margin="10,0,0,0"/>
+                                                                <TextBlock Text="{Binding FullCost, UpdateSourceTrigger=PropertyChanged,ConverterCulture=ru-RU, StringFormat=Цена: {0:C}/сутки}"
+                                                                       Margin="10,0,0,0"/>
+                                                            </StackPanel>
                                                         </Border>
                                                     </ControlTemplate>
                                                 </Setter.Value>
@@ -131,21 +156,44 @@
                                    HorizontalAlignment="Center"
                                    Margin="0,20,0,0"
                                    FontSize="20"/>
-                        <TextBlock Text="{Binding SelectedClient.FullName, StringFormat=Клиент: {0}}"
-                                   Margin="0,20,0,0"/>
-                        <TextBlock Text="{Binding SelectedSanatoriumProgram.Title, StringFormat=Программа: {0}}"
-                                   Margin="0,20,0,0"/>
-                        <TextBlock Text="{Binding SelectedSanatoriumRoom.SanatoriumRoomCategory.Title, StringFormat=Номер: {0}}"
-                                   Margin="0,20,0,0"/>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,20,0,0">
+                            <TextBlock Text="Клиент: "/>
+                            <TextBlock Text="{Binding SelectedClient.FullName}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,20,0,0">
+                            <TextBlock Text="Номер: "/>
+                            <TextBlock Text="{Binding SelectedSanatoriumRoom.SanatoriumRoomCategory.Title}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,20,0,0">
+                            <TextBlock Text="Программа: "/>
+                            <TextBlock Text="{Binding SelectedSanatoriumProgram.Title}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,25,0,0">
+                            <TextBlock Text="От: "/>
+                            <DatePicker SelectedDate="{Binding DateOfCheckIn}"/>
+                            <TextBlock Text="До: "
+                                       Margin="30,0,0,0"/>
+                            <DatePicker SelectedDate="{Binding DateOfCheckOut}"/>
+                        </StackPanel>
                         <TextBlock Text="Метод оплаты"/>
                         <ComboBox ItemsSource="{Binding PaymentMethods}"
                                   SelectedItem="{Binding SelectedPaymentMethod}"
                                   DisplayMemberPath="Title"/>
-                        <Button x:Name="AddContrctButton"
+                        <TextBlock Text="Общая стоимость"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock HorizontalAlignment="Center"
+                                   />
+                        <Button x:Name="AddContractButton"
                                 Margin="0,40,0,0"
                                 Content="Оформить"
                                 Width="100"
-                                Click="AddContrctButton_Click"/>
+                                Click="AddContractButton_Click"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
