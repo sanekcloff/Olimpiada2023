@@ -12,11 +12,12 @@ namespace Application2.Entities
 
         public Client()
         {
-
+            Contracts = new HashSet<Contract>();
         }
 
         public Client(string lastName, string firstName, string middleName, DateTime dateOfBirth, char gender, string passportNumber, string passportSeries)
         {
+            Contracts = new HashSet<Contract>();
             LastName = lastName;
             FirstName = firstName;
             MiddleName = middleName;
@@ -36,7 +37,7 @@ namespace Application2.Entities
         public string PassportNumber { get; set; }=null!;
         public string PassportSeries { get; set; } = null!;
 
-        public ICollection<Contract> Contracts { get; set; } = null!;
+        public ICollection<Contract> Contracts { get; set; } 
 
         [NotMapped]
         public string FullName { get => $"{LastName} {FirstName} {MiddleName}"; }

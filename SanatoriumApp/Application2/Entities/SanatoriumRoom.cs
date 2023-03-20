@@ -9,6 +9,11 @@ namespace Application2.Entities
 {
     public class SanatoriumRoom
     {
+        public SanatoriumRoom()
+        {
+            Contracts = new HashSet<Contract>();
+        }
+
         public int Id { get; set; }
 
         public decimal RoomSize { get; set; }

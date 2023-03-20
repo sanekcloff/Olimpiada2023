@@ -8,6 +8,11 @@ namespace Application2.Entities
 {
     public class SanatoriumProgram
     {
+        public SanatoriumProgram()
+        {
+            Contracts = new HashSet<Contract>();
+        }
+
         public int Id { get; set; }
 
         public string Title { get; set; } = null!;

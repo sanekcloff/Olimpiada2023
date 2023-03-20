@@ -8,6 +8,11 @@ namespace Application2.Entities
 {
     public class PaymentMethod
     {
+        public PaymentMethod()
+        {
+            Contracts =  new HashSet<Contract>();
+        }
+
         public int Id { get; set; }
 
         public string Title { get; set; } = null!;

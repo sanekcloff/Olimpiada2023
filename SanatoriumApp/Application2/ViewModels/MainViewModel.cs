@@ -12,6 +12,7 @@ namespace Application2.ViewModels
     {
         public MainViewModel()
         {
+
         }
         public Page SelectPage(string user)
         {

@@ -72,12 +72,12 @@
                                 Grid.Row="0"
                                 HorizontalAlignment="Center">
                         <TextBlock Text="От: "/>
-                        <DatePicker SelectedDate="{Binding CheckIn}"/>
+                        <DatePicker SelectedDate="{Binding CheckIn,UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBlock Text="До: "
                                    Margin="150,0,0,0"/>
-                        <DatePicker SelectedDate="{Binding CheckIn}"/>
+                        <DatePicker SelectedDate="{Binding CheckOut, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
-                    <ListView ItemsSource="{Binding Clients}"
+                    <ListView ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged}"
                               Grid.Row="1">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
@@ -88,8 +88,14 @@
                                                                 CornerRadius="10"
                                                                 Height="20"
                                                                 Margin="3">
-                                                <TextBlock Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
                                                                        Margin="10,0,0,0"/>
+                                                    <TextBlock Text="{Binding ContractCount, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                                    <TextBlock Text="{Binding Contracts.PaymentAmount, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                                </StackPanel>
                                             </Border>
                                         </ControlTemplate>
                                     </Setter.Value>
@@ -97,10 +103,18 @@
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
+                    <Button Grid.Row="2"
+                            Content="Сформировать отчёт"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Отчет о спросе на программы лечения-оздоровления">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".1*"/>
+                        <RowDefinition/>
+                        <RowDefinition Height=".1*"/>
+                    </Grid.RowDefinitions>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

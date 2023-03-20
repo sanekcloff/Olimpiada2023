@@ -77,6 +77,8 @@ namespace Application2.ViewModels
             UpdateLists();
         
             SelectedDate=DateTime.Now;
+            CheckIn= DateTime.Now;
+            CheckOut= DateTime.Now.AddDays(1);
         }
 
         public ICollection<Contract> SelectedDateChange(List<Contract> contracts)
