@@ -60,7 +60,6 @@ namespace Application2.ViewModels
             set
             {
                 Set(ref _selectedContract, value, nameof(SelectedContract));
-
             }
         }
         #endregion
@@ -93,7 +92,7 @@ namespace Application2.ViewModels
         }
         private void UpdateLists()
         {
-            Clients = new List<Client>(ClientService.GetClients());
+            Clients = new List<Client>(ClientService.GetClients().Where(c=>c.ContractCount>=3));
             Contracts = new List<Contract>(ContractService.GetContracts().Where(c => c.SanatoriumRoom.Status == true));
         }
     }

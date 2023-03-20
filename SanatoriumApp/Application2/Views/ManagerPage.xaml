@@ -66,6 +66,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height=".1*"/>
                         <RowDefinition/>
+                        <RowDefinition Height=".1*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal"
                                 Grid.Row="0"
@@ -76,6 +77,26 @@
                                    Margin="150,0,0,0"/>
                         <DatePicker SelectedDate="{Binding CheckIn}"/>
                     </StackPanel>
+                    <ListView ItemsSource="{Binding Clients}"
+                              Grid.Row="1">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <Border Background="Wheat"
+                                                                CornerRadius="10"
+                                                                Height="20"
+                                                                Margin="3">
+                                                <TextBlock Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
                 </Grid>
             </TabItem>
             <TabItem Header="Отчет о спросе на программы лечения-оздоровления">
