@@ -24,6 +24,7 @@ namespace Application2.Services
                 .Include(sr => sr.SanatoriumRoom)
                     .ThenInclude(src => src.SanatoriumRoomCategory)
                 .Include(sp => sp.SanatoriumProgram)
+                .Include(pm=>pm.PaymentMethod)
                 .ToList();
         }
         public bool Insert(Contract contract)
