@@ -26,8 +26,10 @@ namespace Application2.ViewModels
         #region Lists
         private List<Client> _clients;
         private List<Contract> _contracts;
+        private List<Contract> _reportContracts;
         public List<Client> Clients { get => _clients; set => Set(ref _clients, value, nameof(Clients)); }
         public List<Contract> Contracts { get => _contracts; set => Set(ref _contracts, value, nameof(Contracts)); }
+        public List<Contract> ReportContracts { get => _reportContracts; set => Set(ref _reportContracts, value, nameof(ReportContracts)); }
         #endregion
 
         #region Fields & Properties
@@ -44,15 +46,23 @@ namespace Application2.ViewModels
                 Contracts=SelectedDateChange(ContractService.GetContracts().Where(c => c.SanatoriumRoom.Status == true).ToList()).ToList();
             }
         }
-        public DateTime CheckIn 
-        { 
-            get => _checkIn; 
-            set => Set(ref _checkIn, value, nameof(CheckIn)); 
+        public DateTime CheckIn
+        {
+            get => _checkIn;
+            set
+            {
+                Set(ref _checkIn, value, nameof(CheckIn));
+                UpdateLists();
+            }
         }
-        public DateTime CheckOut 
-        { 
-            get => _checkOut; 
-            set => Set(ref _checkOut, value, nameof(CheckOut)); 
+        public DateTime CheckOut
+        {
+            get => _checkOut;
+            set
+            {
+                Set(ref _checkOut, value, nameof(CheckOut));
+                UpdateLists();
+            }
         }
         public Contract SelectedContract 
         { 
@@ -64,6 +74,15 @@ namespace Application2.ViewModels
         }
         #endregion
 
+        #region Records
+        public record ReportClient(Client client, int contractsCount, decimal paymentAmount);
+        public record ReportProgram(SanatoriumProgram program, int contractCount, decimal paymentAmount);
+
+        private List<ReportClient> _reportClients;
+        private List<ReportProgram> _reportPrograms;
+        public List<ReportClient> ReportClients { get => _reportClients; set => Set(ref _reportClients, value, nameof(ReportClients)); }
+        public List<ReportProgram> ReportPrograms { get => _reportPrograms; set => Set(ref _reportPrograms, value, nameof(ReportPrograms)); }
+        #endregion
         public ManagerViewModel()
         {
             _context= new ApplicationDbContext();
@@ -73,12 +92,12 @@ namespace Application2.ViewModels
             PaymentService = new PaymentMethodService(_context);
             ProgramService = new SanatoriumProgramService(_context);
             RoomService = new SanatoriumRoomService(_context);
-
-            UpdateLists();
         
             SelectedDate=DateTime.Now;
             CheckIn= DateTime.Now;
             CheckOut= DateTime.Now.AddDays(1);
+
+            UpdateLists();
         }
 
         public ICollection<Contract> SelectedDateChange(List<Contract> contracts)
@@ -94,8 +113,29 @@ namespace Application2.ViewModels
         }
         private void UpdateLists()
         {
-            Clients = new List<Client>(ClientService.GetClients().Where(c=>c.ContractCount>=3));
             Contracts = new List<Contract>(ContractService.GetContracts().Where(c => c.SanatoriumRoom.Status == true));
+            ReportClients = new List<ReportClient>(GetReportClients());
+        }
+        private decimal CalculatePaymentAmount(Client client)
+        {
+            var paymentAmount = 0M;
+            foreach (var contract in Contracts.Where(c=>c.Client==client && (c.DateOfCheckIn>=CheckIn && c.DateOfCheckOut<=CheckOut)))
+            {
+                paymentAmount += contract.PaymentAmount;
+            }
+            return paymentAmount;
+        }
+        private List<ReportClient> GetReportClients()
+        {
+            var reportClient=new List<ReportClient>();
+            foreach (var contract in Contracts)
+            {
+                if (!ReportClients.Any(c=>c.client==contract.Client))
+                {
+                    reportClient.Add(new ReportClient(contract.Client, contract.Client.Contracts.Count(), CalculatePaymentAmount(contract.Client)));
+                }
+            }
+            return reportClient;
         }
     }
 }

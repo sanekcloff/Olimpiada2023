@@ -41,6 +41,5 @@ namespace Application2.Entities
 
         [NotMapped]
         public string FullName { get => $"{LastName} {FirstName} {MiddleName}"; }
-        public int ContractCount { get => Contracts.Count; }
     }
 }

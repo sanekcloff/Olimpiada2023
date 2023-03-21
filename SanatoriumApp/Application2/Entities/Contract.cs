@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,5 +43,8 @@ namespace Application2.Entities
         public Client Client { get; set; } = null!;
         public SanatoriumProgram SanatoriumProgram { get; set;} = null!;
         public SanatoriumRoom SanatoriumRoom { get; set;} = null!;
+
+        [NotMapped]
+        public string CheckInOutDates { get=> $"{DateOfCheckIn.ToString("d")} / {DateOfCheckOut.ToString("d")}"; }
     }
 }

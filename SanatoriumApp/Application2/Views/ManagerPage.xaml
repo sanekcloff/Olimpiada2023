@@ -61,12 +61,11 @@
                     </ListView>
                 </Grid>
             </TabItem>
-            <TabItem Header="Отчет о постоянных клиентах">
+            <TabItem Header="Отчеты">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height=".1*"/>
                         <RowDefinition/>
-                        <RowDefinition Height=".1*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal"
                                 Grid.Row="0"
@@ -77,43 +76,82 @@
                                    Margin="150,0,0,0"/>
                         <DatePicker SelectedDate="{Binding CheckOut, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
-                    <ListView ItemsSource="{Binding Clients, UpdateSourceTrigger=PropertyChanged}"
-                              Grid.Row="1">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListViewItem">
-                                            <Border Background="Wheat"
+                    <TabControl Grid.Row="1">
+                        <TabItem Header="О постоянных клиентах">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height=".1*"/>
+                                </Grid.RowDefinitions>
+                                <ListView ItemsSource="{Binding ReportClients, UpdateSourceTrigger=PropertyChanged}"
+                              Grid.Row="0">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListViewItem">
+                                                        <Border Background="Wheat"
                                                                 CornerRadius="10"
                                                                 Height="20"
                                                                 Margin="3">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="{Binding Client.FullName, UpdateSourceTrigger=PropertyChanged}"
                                                                        Margin="10,0,0,0"/>
-                                                    <TextBlock Text="{Binding ContractCount, UpdateSourceTrigger=PropertyChanged}"
+                                                                <TextBlock Text="{Binding contractsCount, UpdateSourceTrigger=PropertyChanged}"
                                                                        Margin="10,0,0,0"/>
-                                                    <TextBlock Text="{Binding Contracts.PaymentAmount, UpdateSourceTrigger=PropertyChanged}"
+                                                                <TextBlock Text="{Binding paymentAmount, UpdateSourceTrigger=PropertyChanged}"
                                                                        Margin="10,0,0,0"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-                    <Button Grid.Row="2"
-                            Content="Сформировать отчёт"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Отчет о спросе на программы лечения-оздоровления">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height=".1*"/>
-                        <RowDefinition/>
-                        <RowDefinition Height=".1*"/>
-                    </Grid.RowDefinitions>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                </ListView>
+                                <Button Grid.Row="1"
+                                        Content="Сформировать отчёт"/>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="О спросе на программы лечения-оздоровления">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height=".1*"/>
+                                </Grid.RowDefinitions>
+                                <ListView ItemsSource="{Binding ReportContracts, UpdateSourceTrigger=PropertyChanged}"
+                              Grid.Row="0">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListViewItem">
+                                                        <Border Background="Wheat"
+                                                                CornerRadius="10"
+                                                                Height="20"
+                                                                Margin="3">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="{Binding SanatoriumProgam.Title, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                                                <TextBlock Text="{Binding Client.ContractCount, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                                                <TextBlock Text="{Binding PaymentAmount, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                                                <TextBlock Text="{Binding CheckInOutDates, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="10,0,0,0"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                </ListView>
+                                <Button Grid.Row="1"
+                                        Content="Сформировать отчёт"/>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </TabItem>
         </TabControl>
