@@ -11,6 +11,7 @@ namespace Application2.ViewModels
 {
     public class AdminViewModel:ViewModelBase
     {
+        // всё для вкладки регистрации клиента
         #region Registration Client properties & fields
         private string _lastName = null!;
         private string _firstName = null!;
@@ -35,6 +36,7 @@ namespace Application2.ViewModels
         };
         #endregion
 
+        // всё для формирования контракта, договора
         #region Check In properties & fields
         private List<Client> _clients=null!;
         private List<SanatoriumRoom> _sanatoriumRooms=null!;
@@ -59,7 +61,7 @@ namespace Application2.ViewModels
             set 
             {
                 Set(ref _dateOfCheckIn, value, nameof(DateOfCheckIn));
-                CalculatePaymentAmount();
+                CalculatePaymentAmount(); // вычесление цены оформляемого контракта
             } 
         }
         public DateTime DateOfCheckOut 
@@ -68,18 +70,22 @@ namespace Application2.ViewModels
             set 
             {
                 Set(ref _dateOfCheckOut, value, nameof(DateOfCheckOut));
-                CalculatePaymentAmount();
+                CalculatePaymentAmount(); // вычесление цены оформляемого контракта
             } 
         }
 
-        public Client SelectedClient {  get => _selectedClient;  set => Set(ref _selectedClient, value, nameof(SelectedClient)); }
+        public Client SelectedClient 
+        {  
+            get => _selectedClient;  
+            set => Set(ref _selectedClient, value, nameof(SelectedClient)); 
+        }
         public SanatoriumRoom SelectedSanatoriumRoom 
         { 
             get => _selectedSanatoriumRoom;
             set 
             {
                 Set(ref _selectedSanatoriumRoom, value, nameof(SelectedSanatoriumRoom));
-                CalculatePaymentAmount();
+                CalculatePaymentAmount(); // вычесление цены оформляемого контракта
             } 
         }
         public SanatoriumProgram SelectedSanatoriumProgram 
@@ -88,13 +94,14 @@ namespace Application2.ViewModels
             set 
             {
                 Set(ref _selectedSanatoriumProgram, value, nameof(SelectedSanatoriumProgram));
-                CalculatePaymentAmount();
+                CalculatePaymentAmount(); // вычесление цены оформляемого контракта
             } 
         }
         
         public decimal PaymentAmount { get => _paymentAmount; set => Set(ref _paymentAmount, value, nameof(PaymentAmount)); }
         #endregion
 
+        // всё фильтров сортировок
         #region Contract properties & fields
         private string _searchClient = null!;
         private string _selectedFilther = null!;
@@ -118,7 +125,7 @@ namespace Application2.ViewModels
             set
             {
                 Set(ref _selectedFilther, value, nameof(SelectedFilther));
-                AllFilthers();
+                AllFilthers(); // вызов обновления списков
             }
         }
         public string SelectedStatus 
@@ -127,7 +134,7 @@ namespace Application2.ViewModels
             set 
             {
                 Set(ref _selectedStatus, value, nameof(SelectedStatus));
-                AllFilthers();
+                AllFilthers(); // вызов обновления списков
             }
         }
         public decimal SelectedCost
@@ -136,7 +143,7 @@ namespace Application2.ViewModels
             set
             {
                 Set(ref _selectedCost, value, nameof(SelectedCost));
-                AllFilthers();
+                AllFilthers(); // вызов обновления списков
             }
         }
         public int SelectedSeats 
@@ -145,7 +152,7 @@ namespace Application2.ViewModels
             set 
             {
                 Set(ref _selectedSeats, value, nameof(SelectedSeats));
-                AllFilthers();
+                AllFilthers(); // вызов обновления списков
             } 
         }
 
@@ -180,6 +187,7 @@ namespace Application2.ViewModels
 
         #endregion
 
+        // Переменные для хранения экзмепляров сервисов
         #region Services
         public ContractService ContractService { get; }
         public ClientService ClientService { get; }
@@ -193,7 +201,9 @@ namespace Application2.ViewModels
         private ApplicationDbContext _context;
         public AdminViewModel()
         {
+            //Создание экземпляра контекста
             _context = new ApplicationDbContext();
+
             //Подгрузка сервисов
             ContractService= new ContractService(_context);
             ClientService = new ClientService(_context);
@@ -201,15 +211,17 @@ namespace Application2.ViewModels
             ProgramService= new SanatoriumProgramService(_context);
             PaymentMethodService= new PaymentMethodService(_context);
 
-            //Заполнение листов
+            //Заполнение листов с помощью методо
             Clients= new List<Client>(ClientService.GetClients());
             SanatoriumRooms = new List<SanatoriumRoom>(RoomService.GetSanatoriumRooms());
             SanatoriumPrograms = new List<SanatoriumProgram>(ProgramService.GetSanatoriumPrograms());
             PaymentMethods = new List<PaymentMethod>(PaymentMethodService.GetPaymentMethods());
 
+            // Объявление начальных дат иначе, стартовые значения будут 01.01.0001
             DateOfCheckIn = DateTime.Now;
             DateOfCheckOut = DateTime.Now.AddDays(1);
 
+            // Объявление начальных значений фильтров, списков
             SelectedGender = Genders[0];
             SelectedPaymentMethod = PaymentMethods[0];
             SelectedFilther = FiltherValues[0];
@@ -227,12 +239,14 @@ namespace Application2.ViewModels
             PassportNumber= string.Empty;
             PassportSeries=string.Empty;
         }
+        // Обновление списков, оно происходит после изменения каких либо данных в них
         public void UpdateLists()
         {
             Clients = new List<Client>(ClientService.GetClients());
             AllFilthers();
             SanatoriumPrograms = new List<SanatoriumProgram>(ProgramService.GetSanatoriumPrograms());
         }
+        //Обновление списка с учётом фильтров
         public void AllFilthers()
         {
             SanatoriumRooms = FiltherStatus(FiltherSeats(FiltherCosts(FiltherCategories(RoomService
