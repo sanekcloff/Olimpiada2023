@@ -12,8 +12,9 @@
         <vm:AdminViewModel/>
     </Page.DataContext>
     <Grid>
-        <TabControl>
+        <TabControl>  <!--Объект для создания вкладок-->
             <TabItem Header="Регистрация клиента">
+                <!--Вкладка-->
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Фамилия"/>
                     <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
